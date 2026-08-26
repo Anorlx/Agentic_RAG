@@ -1,0 +1,11 @@
+# Local Docker Desktop fallback for a Docker Hub proxy that is currently unavailable.
+# Milvus 2.6.17 satisfies SuperMew's documented Milvus 2.5+ requirement.
+services:
+  postgres:
+    image: docker.m.daocloud.io/library/postgres:15
+  redis:
+    image: docker.m.daocloud.io/library/redis:7-alpine
+  etcd:
+    image: quay.io/coreos/etcd:v3.5.25
+  standalone:
+    image: docker.m.daocloud.io/milvusdb/milvus:v2.6.17

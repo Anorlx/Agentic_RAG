@@ -1,0 +1,103 @@
+<template>
+  <div
+    v-if="hasKnowledgeSources || hasWebSources"
+    class="references-section"
+  >
+    <details v-if="hasKnowledgeSources" ref="detailsRef" class="references-details">
+      <summary class="references-title">
+        <span><i class="fa-regular fa-bookmark"></i> 知识库来源</span>
+        <small>{{ knowledgeSources.length }} 个证据片段</small>
+      </summary>
+      <ul class="sources-list references-list">
+        <li
+          v-for="(chunk, cIdx) in knowledgeSources"
+          :id="'chunk-' + msgIndex + '-' + (cIdx + 1)"
+          :key="cIdx"
+          class="source-item"
+        >
+          <button
+            type="button"
+            class="ref-index cite-ref"
+            :data-msg-index="msgIndex"
+            :data-chunk-index="cIdx + 1"
+            @click="onCiteClick(cIdx + 1)"
+          >
+            {{ cIdx + 1 }}
+          </button>
+          <div class="source-content">
+            <div class="source-title-line">
+              <span class="source-file"><i class="fa-regular fa-file-lines"></i>{{ chunk.filename }}</span>
+              <span v-if="chunk.page_number" class="source-page">第 {{ chunk.page_number }} 页</span>
+            </div>
+            <div class="source-meta-line">
+              <span>RRF #{{ chunk.rrf_rank || (cIdx + 1) }}</span>
+              <span v-if="chunk.rerank_score !== null && chunk.rerank_score !== undefined">
+                Rerank {{ Number(chunk.rerank_score).toFixed(4) }}
+              </span>
+            </div>
+            <div v-if="chunk.text" class="source-excerpt">{{ chunk.text }}</div>
+          </div>
+        </li>
+      </ul>
+    </details>
+
+    <details v-if="hasWebSources" class="references-details web-references-details">
+      <summary class="references-title">
+        <span><i class="fa-solid fa-globe"></i> 网页来源</span>
+        <small>{{ webSources.length }} 个公开来源</small>
+      </summary>
+      <ul class="sources-list references-list">
+        <li
+          v-for="(source, sourceIndex) in webSources"
+          :key="source.url"
+          class="source-item web-source-item"
+        >
+          <span class="ref-index web-source-index">W{{ sourceIndex + 1 }}</span>
+          <div class="source-content">
+            <a
+              class="source-title-line web-source-link"
+              :href="source.url"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="source-file"><i class="fa-solid fa-globe"></i>{{ source.title }}</span>
+              <span class="source-domain">{{ source.domain }}</span>
+            </a>
+            <div v-if="source.snippet" class="source-excerpt">{{ source.snippet }}</div>
+          </div>
+        </li>
+      </ul>
+    </details>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed, ref } from 'vue';
+import type { Message } from '@/types/chat';
+
+const props = defineProps<{
+  msg: Message;
+  msgIndex: number;
+}>();
+
+const emit = defineEmits<{
+  (e: 'cite-click', msgIndex: number, chunkIndex: number): void;
+}>();
+
+const detailsRef = ref<HTMLDetailsElement | null>(null);
+
+const knowledgeSources = computed(() => props.msg.ragTrace?.retrieved_chunks || []);
+const webSources = computed(() => props.msg.ragTrace?.web_sources || []);
+const hasKnowledgeSources = computed(() => knowledgeSources.value.length > 0);
+const hasWebSources = computed(() => webSources.value.length > 0);
+
+const openDetails = () => {
+  if (detailsRef.value) detailsRef.value.open = true;
+};
+
+defineExpose({ openDetails });
+
+const onCiteClick = (chunkIndex: number) => {
+  emit('cite-click', props.msgIndex, chunkIndex);
+};
+</script>

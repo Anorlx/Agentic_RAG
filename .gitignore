@@ -1,0 +1,25 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+.env    
+
+#docker files
+volumes/
+
+# OS files
+.DS_Store
+data/
+.worktrees/
+.superpowers/
+
+# Node / Frontend development
+node_modules/
+frontend/node_modules/
+frontend/dist/
