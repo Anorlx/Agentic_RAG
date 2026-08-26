@@ -18,6 +18,18 @@ volumes/
 data/
 .worktrees/
 .superpowers/
+# Local planning and internal design notes; keep outside the public repository.
+docs/superpowers/
+
+# Private credentials, certificates, and local overrides.
+.env.*
+!.env.example
+*.pem
+*.key
+id_rsa
+id_ed25519
+credentials.json
+service-account*.json
 
 # Node / Frontend development
 node_modules/
