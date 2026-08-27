@@ -263,6 +263,58 @@ SuperAgentic_RAG/
 - 实时信息质量取决于网页搜索服务和来源本身；关键农事决策应结合当地实况与农技人员意见复核。
 - 本项目用于信息检索与辅助决策，不替代植保处方、农药合规判断或田间诊断。
 
+## 🚀 未来展望：文件化农业上下文库
+
+> 📌 **规划中，尚未实现。** 本方向借鉴 OpenViking 的文件系统式上下文组织与分层加载理念[^1]；当前项目并未集成 OpenViking SDK。
+
+当前项目的 L1/L2/L3 是面向检索的**分块层级**。下一阶段会在此之上增加面向人和 Agent 的**资源目录层**：将上传的文档、Excel 工作表、田间试验项目和数据集组织成可浏览的“文件”，而非仅作为匿名文本块存入向量库。
+
+```text
+agri://resources/
+└── rice/
+    ├── .abstract.md                       # L0：知识库范围、关键主题与快速相关性判断
+    ├── .overview.md                       # L1：目录、文档摘要、数据集与主要字段概览
+    ├── experiments/
+    │   └── 2025_early_rice_trial/
+    │       ├── .abstract.md               # 试验目的、地点、年份、品种与关键结论
+    │       ├── .overview.md               # 试验设计、处理组、指标与工作表目录
+    │       ├── manifest.json              # 来源、更新时间、版本、权限与文件元数据
+    │       ├── raw/
+    │       │   └── yield_trial.xlsx       # 原始文件
+    │       ├── sheets/
+    │       │   ├── treatment.md           # 工作表摘要、字段说明与样例
+    │       │   └── yield.md
+    │       └── chunks/                    # 现有 L1/L2/L3 分块及其溯源关系
+    └── regulations/
+        └── rice_fertilization_guideline/
+```
+
+资源目录层与现有的分块层级职责不同：前者解决“有什么资料、资料讲什么、谁可以访问、哪个版本有效”的导航与治理问题；后者继续负责混合检索、Auto-merging、Rerank 和引用定位。两层结合后，Agent 可先从轻量摘要判断资源是否相关，再按需深入到目录、原文件、工作表或细粒度证据块。
+
+计划中的查询路径如下：
+
+```mermaid
+flowchart LR
+    accTitle: 文件化农业上下文库的未来查询路径
+    accDescr: Agent 先根据摘要筛选农业资源，再读取目录，按需加载原文、工作表或已有分块，最后选择 RAG 或 Text-to-SQL 并生成带引用的回答。
+    user_question[用户问题] --> resource_abstract[L0 资源摘要筛选]
+    resource_abstract --> resource_overview[L1 目录与概览]
+    resource_overview --> on_demand_content[按需加载原文、工作表或 L3 证据块]
+    on_demand_content --> answer_route[RAG 或 Text-to-SQL]
+    answer_route --> cited_answer[带来源与溯源的回答]
+```
+
+这一方向将优先服务水稻农业资料：试验报告可呈现地点、季节、品种和处理组摘要；政策与农艺规程可呈现目录和适用区域；Excel 可进一步暴露 Sheet、字段和指标口径。由此可以形成“文章问答 + 表格查询”的统一入口，并保留从回答回溯至资源、文件和具体分块的证据链。
+
+后续拟逐步实现：
+
+- 文档、试验和工作表的目录浏览、摘要生成与来源追溯。
+- `manifest` 驱动的版本、更新时间和访问权限管理。
+- Excel 的 Sheet / 字段资源化，并与 Text-to-SQL 查询链路衔接。
+- 检索阶段先读摘要和概览、再按需取数，降低无关上下文进入模型的比例。
+
+[^1]: Volcengine. [OpenViking](https://github.com/volcengine/OpenViking)：面向 Agent 的开源上下文数据库，采用文件系统式资源组织与分层上下文加载。
+
 ## API 概览
 
 | 模块 | 主要接口 |
