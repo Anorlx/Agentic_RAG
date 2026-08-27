@@ -291,6 +291,34 @@ agri://resources/
 
 资源目录层与现有的分块层级职责不同：前者解决“有什么资料、资料讲什么、谁可以访问、哪个版本有效”的导航与治理问题；后者继续负责混合检索、Auto-merging、Rerank 和引用定位。两层结合后，Agent 可先从轻量摘要判断资源是否相关，再按需深入到目录、原文件、工作表或细粒度证据块。
 
+### 三层去重与版本关系
+
+文件化资源库需要把“同一份资料被多次上传”与“内容相近但版本不同”区分处理。规划采用三层去重机制，并将去重范围限制在同一租户和可共享的权限域内，避免因复用索引而跨越访问边界：
+
+| 层级 | 识别方式 | 处理方式 |
+| --- | --- | --- |
+| 文件级精确去重 | 上传时流式计算 `raw_file_sha256 = SHA256(原始文件字节)`；唯一约束为 `tenant_id + raw_file_sha256` | 完全相同的文件复用已有解析、索引与向量结果，不重复建库。 |
+| 内容级精确去重 | 解析、清洗后计算 `content_sha256 = SHA256(normalized_text)` | 识别“同一规程的 PDF 与 Word”等跨格式重复；保留不同来源、文件名与权限，而非简单物理删除。 |
+| 近似重复检测 | SimHash、MinHash + LSH、文档摘要向量相似度，以及分块指纹重合率 | 超过阈值标记为“疑似重复”，再由业务规则决定合并、建立版本关系或并存。 |
+
+内容级重复不会直接丢弃文件。未来资源模型会以 `canonical_document_id` 指向规范文档，以 `duplicate_of` 记录重复关系，并通过 `source_aliases` 保留每一次上传的来源、文件名和业务归属。这样既能节省重复索引成本，也不会丢失农业数据的采集渠道、区域权限和审计信息。
+
+在分块层，规划计算 `chunk_hash = SHA256(normalized_chunk_text)`。当租户、权限域、分块策略及 Embedding 版本一致时，相同 Chunk 仅保存一份向量，其余文档保留对该证据块的引用与溯源关系；权限或模型版本变化时则隔离存储，确保检索结果始终符合授权范围。
+
+### 规划中的资源数据模型
+
+`documents` 主表将承载文件、内容、农业业务元数据和索引状态：
+
+| 字段组 | 规划字段 |
+| --- | --- |
+| 标识与归属 | `document_id`、`tenant_id`、`knowledge_base_id`、`filename`、`source_uri` |
+| 去重与关系 | `raw_file_sha256`、`content_sha256`、`canonical_document_id`、`duplicate_of`、`source_aliases` |
+| 内容描述 | `title`、`document_summary`、`tags`、`document_type`、`language` |
+| 农业语义 | `region`、`crop`、`effective_date`、`version` |
+| 治理与索引 | `acl_scope`、`status`、`parser_version`、`embedding_version`、`indexed_at` |
+
+分块记录除 `document_id` 外，还将保留 `section_title`、`section_path`、`chunk_hash`、`section_summary` 与 `metadata_json`。这些字段让系统能够先按区域、作物、资料类型、时效性和权限做元数据预过滤；再以摘要索引召回候选资源；最后由 L3 原文分块完成事实检索、精排和可追溯引用。
+
 计划中的查询路径如下：
 
 ```mermaid
@@ -310,6 +338,7 @@ flowchart LR
 
 - 文档、试验和工作表的目录浏览、摘要生成与来源追溯。
 - `manifest` 驱动的版本、更新时间和访问权限管理。
+- 文件 Hash、内容 Hash 与近似重复检测协同运行，复用索引但保留来源和版本关系。
 - Excel 的 Sheet / 字段资源化，并与 Text-to-SQL 查询链路衔接。
 - 检索阶段先读摘要和概览、再按需取数，降低无关上下文进入模型的比例。
 
