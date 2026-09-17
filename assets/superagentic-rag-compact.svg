@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1250" viewBox="0 0 1000 1250">
+  <defs>
+    <style>
+      .serif{font-family:Georgia,"Times New Roman","Noto Serif SC","Songti SC",serif}.sans{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Microsoft YaHei",sans-serif}
+      .title{font-size:27px;font-weight:700;fill:#173f70}.sub{font-size:14px;fill:#60758d}.tag{font-size:20px;font-weight:700;fill:#1d568c}.section{font-size:19px;font-weight:700;fill:#244c78}.body{font-size:16px;fill:#30475e}.small{font-size:13px;fill:#61758b}.tiny{font-size:11px;fill:#74879a}
+      .panel{fill:#f5f8fc;stroke:#b8cde3;stroke-width:2}.card{fill:#fff;stroke:#7897b7;stroke-width:1.7}.blue{fill:#e5f0fb;stroke:#6e9dcc;stroke-width:1.7}.teal{fill:#eaf6f7;stroke:#76a8b8;stroke-width:1.7}.deep{fill:#d5e7f7;stroke:#5482ae;stroke-width:2}.line{fill:none;stroke:#456b93;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+    </style>
+    <marker id="arrow" markerWidth="5.2" markerHeight="5.2" refX="4.8" refY="2.6" orient="auto"><path d="M0 0 L5.2 2.6 L0 5.2" fill="#456b93"/></marker>
+  </defs>
+  <rect width="1000" height="1250" fill="#fff"/>
+  <text class="serif title" x="500" y="39" text-anchor="middle">SuperAgentic_RAG：水稻农业智能体的证据工作流</text>
+  <text class="serif sub" x="500" y="63" text-anchor="middle">Supervisor 选择证据路径，Agentic RAG 负责受控取证与可核验回答</text>
+
+  <!-- A: task + route -->
+  <rect class="panel" x="55" y="90" width="890" height="230" rx="23"/>
+  <rect class="deep" x="376" y="66" width="248" height="52" rx="11"/><text class="serif tag" x="500" y="101" text-anchor="middle">任务与路由</text>
+  <rect class="card" x="85" y="135" width="350" height="145" rx="13"/>
+  <text class="sans section" x="108" y="169">水稻农业问题</text>
+  <text class="sans small" x="108" y="198">生长监测与异常分析</text><text class="sans small" x="108" y="222">病虫害与农事调控</text><text class="sans small" x="108" y="246">产量评估辅助决策</text>
+  <rect class="blue" x="480" y="135" width="435" height="65" rx="12"/><text class="sans body" x="501" y="174">Supervisor：先判断需要哪类证据</text><text class="sans tiny" x="501" y="192">Pydantic 结构化路由 · 用户可见 reason</text>
+  <rect class="card" x="480" y="215" width="205" height="50" rx="10"/><text class="sans small" x="582" y="246" text-anchor="middle">direct · 直接回答</text>
+  <rect class="card" x="710" y="215" width="205" height="50" rx="10"/><text class="sans small" x="812" y="246" text-anchor="middle">knowledge_base · 私有资料</text>
+  <text class="sans tiny" x="480" y="294">web_search · 实时信息　　knowledge_base + web · 联合取证</text>
+
+  <!-- B: sources -->
+  <rect class="panel" x="55" y="355" width="890" height="205" rx="23"/>
+  <rect class="deep" x="390" y="331" width="220" height="52" rx="11"/><text class="serif tag" x="500" y="366" text-anchor="middle">证据来源</text>
+  <text class="sans section" x="85" y="411">私有资料与实时公开信息分开取证</text>
+  <line x1="85" y1="426" x2="915" y2="426" stroke="#c4d5e6" stroke-width="1.3"/>
+  <rect class="blue" x="85" y="450" width="385" height="82" rx="13"/><text class="sans body" x="108" y="480">私有资料知识库</text><text class="sans small" x="108" y="505">PDF · Word · Excel · HTML</text><text class="sans tiny" x="108" y="524">解析净化 · L1/L2/L3 · parent/root 链接</text>
+  <rect class="teal" x="530" y="450" width="385" height="82" rx="13"/><text class="sans body" x="553" y="480">实时公开信息</text><text class="sans small" x="553" y="505">天气 · 政策 · 市场 · 最新研究</text><text class="sans tiny" x="553" y="524">Tavily 搜索 · 来源校验 · 失败可解释降级</text>
+
+  <!-- C: RAG core -->
+  <rect class="panel" x="55" y="595" width="890" height="285" rx="23"/>
+  <rect class="deep" x="350" y="571" width="300" height="52" rx="11"/><text class="serif tag" x="500" y="606" text-anchor="middle">Agentic RAG 取证闭环</text>
+  <text class="sans section" x="85" y="650">问题复杂度决定检索组织方式，证据质量决定是否继续</text>
+  <line x1="85" y1="665" x2="915" y2="665" stroke="#c4d5e6" stroke-width="1.3"/>
+  <rect class="card" x="85" y="690" width="250" height="72" rx="12"/><text class="sans body" x="210" y="720" text-anchor="middle">复杂度规划</text><text class="sans small" x="105" y="746">简单：标准检索</text><text class="sans small" x="105" y="759">复杂：拆分 2–4 个子问题</text>
+  <rect class="card" x="375" y="690" width="250" height="72" rx="12"/><text class="sans body" x="500" y="720" text-anchor="middle">并行子 Agent</text><text class="sans small" x="395" y="746">Send 分发 · 检索 · 评分 · 合成</text><text class="sans small" x="395" y="759">结果去重后统一上下文</text>
+  <rect class="card" x="665" y="690" width="250" height="72" rx="12"/><text class="sans body" x="790" y="720" text-anchor="middle">有限查询纠错</text><text class="sans small" x="685" y="746">Step-back / HyDE 二选一</text><text class="sans small" x="685" y="759">最多改写一次后终止</text>
+  <rect class="blue" x="85" y="790" width="830" height="62" rx="12"/><text class="sans body" x="108" y="817">证据加工：L3 召回（BGE-M3 + BM25） → RRF → L3→L2→L1 Auto-merging → Cross-Encoder 精排</text><text class="sans small" x="108" y="840">只将排序、过滤后的候选片段交给证据评分器</text>
+
+  <!-- D: gate + output -->
+  <rect class="panel" x="55" y="915" width="890" height="245" rx="23"/>
+  <rect class="deep" x="170" y="891" width="200" height="52" rx="11"/><text class="serif tag" x="270" y="926" text-anchor="middle">证据门控</text>
+  <rect class="deep" x="630" y="891" width="200" height="52" rx="11"/><text class="serif tag" x="730" y="926" text-anchor="middle">可核验输出</text>
+  <rect class="card" x="85" y="970" width="370" height="145" rx="13"/>
+  <text class="sans body" x="108" y="1002">EvidenceGrade</text><text class="sans small" x="108" y="1030">answer：证据充分，生成回答</text><text class="sans small" x="108" y="1055">rewrite：相关但不足，改写一次</text><text class="sans small" x="108" y="1080">clarify / scope：缺条件，触发 HITL</text><text class="sans small" x="108" y="1105">no_knowledge：无可靠证据，拒答</text>
+  <rect class="card" x="500" y="970" width="415" height="145" rx="13"/>
+  <text class="sans body" x="523" y="1002">答案与来源</text><text class="sans small" x="523" y="1030">文档片段引用 · 网页来源</text><text class="sans small" x="523" y="1055">SSE 执行状态 · rag_trace</text><text class="sans small" x="523" y="1080">LangSmith Dataset / Experiment / Trace</text><text class="sans tiny" x="523" y="1105">可从结果反查路由、召回、合并、精排与评分</text>
+</svg>

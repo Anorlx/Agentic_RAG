@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <style>
+      .serif{font-family:Georgia,"Times New Roman","Noto Serif SC","Songti SC",serif}.sans{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Microsoft YaHei",sans-serif}
+      .eyebrow{font-size:16px;font-weight:700;letter-spacing:2px;fill:#3972ac}.title{font-size:48px;font-weight:700;fill:#0b4198}.goal-title{font-size:22px;font-weight:700;fill:#0b4198}.goal{font-size:23px;font-weight:600;fill:#203447}.number{font-size:30px;font-weight:700;fill:#fff}.point-title{font-size:29px;font-weight:700;fill:#0b4198}.point{font-size:18px;fill:#3d4f60}.tag{font-size:13px;font-weight:700;letter-spacing:1.2px;fill:#5e7892}.footer{font-size:13px;fill:#7d91a5}
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="#ffffff"/>
+  <rect x="76" y="62" width="150" height="70" rx="2" fill="#0b4198"/>
+  <path d="M226 79 L247 97 L226 115 Z" fill="#0b4198"/>
+  <text class="sans number" x="151" y="108" text-anchor="middle">01</text>
+  <text class="sans eyebrow" x="280" y="82">RESEARCH PROJECT</text>
+  <text class="serif title" x="278" y="130">水稻智能监测与产量评估智能体</text>
+  <line x1="76" y1="164" x2="1515" y2="164" stroke="#dce7f2" stroke-width="2"/>
+  <rect x="76" y="200" width="1010" height="126" rx="14" fill="#f3f8fd"/>
+  <rect x="76" y="200" width="9" height="126" rx="4" fill="#0b4198"/>
+  <text class="sans goal-title" x="116" y="238">项目目标</text>
+  <text class="sans goal" x="116" y="275">基于试验田资料与水稻领域知识，构建面向生长监测、农事问答、</text>
+  <text class="sans goal" x="116" y="307">产量评估辅助与种植调控分析的证据驱动型农业智能体系统。</text>
+  <g fill="none" stroke="#d5e6f4" stroke-width="3"><path d="M1210 218 C1290 171 1410 180 1512 229"/><path d="M1198 247 C1285 205 1405 217 1518 266"/><path d="M1187 276 C1280 239 1402 254 1527 302"/><path d="M1285 184 C1280 238 1284 279 1294 326"/><path d="M1370 180 C1364 238 1369 282 1381 330"/><path d="M1450 191 C1441 243 1448 280 1458 326"/></g>
+  <g stroke="#84afd4" stroke-width="4" fill="none" stroke-linecap="round"><path d="M1322 330 C1325 295 1314 271 1298 255"/><path d="M1322 310 C1304 303 1292 289 1287 275"/><path d="M1400 330 C1403 294 1392 270 1377 254"/><path d="M1400 307 C1418 300 1429 286 1433 271"/><path d="M1470 328 C1473 293 1462 272 1448 258"/><path d="M1470 306 C1453 300 1442 286 1438 273"/></g>
+  <line x1="166" y1="395" x2="166" y2="780" stroke="#d6e4f1" stroke-width="3"/>
+  <circle cx="166" cy="420" r="49" fill="#0b4198"/><text class="sans number" x="166" y="430" text-anchor="middle">1</text>
+  <text class="sans tag" x="245" y="396">EVIDENCE ORCHESTRATION</text><text class="sans point-title" x="245" y="430">多源知识感知与证据路由</text>
+  <text class="sans point" x="245" y="466">以 Supervisor 统一编排直接回答、私有资料检索、实时网页搜索与双源联合取证，</text><text class="sans point" x="245" y="493">先识别用户需要哪类证据，再执行对应链路，避免所有问题都进入同一种检索流程。</text>
+  <rect x="1218" y="394" width="270" height="104" rx="12" fill="#f5f9fd" stroke="#d7e5f1"/><text class="sans tag" x="1243" y="423">ROUTING PATHS</text><text class="sans point" x="1243" y="453">direct · knowledge_base</text><text class="sans point" x="1243" y="479">web_search · dual evidence</text>
+  <circle cx="166" cy="588" r="49" fill="#0b4198"/><text class="sans number" x="166" y="598" text-anchor="middle">2</text>
+  <text class="sans tag" x="245" y="564">AGENTIC RETRIEVAL</text><text class="sans point-title" x="245" y="598">Agentic RAG 自主检索与推理闭环</text>
+  <text class="sans point" x="245" y="634">根据问题复杂度选择标准检索或拆分为 2–4 个子问题并行取证，</text><text class="sans point" x="245" y="661">在证据不足时仅允许一次 Step-back / HyDE 改写，限制无效循环与检索成本。</text>
+  <rect x="1218" y="562" width="270" height="104" rx="12" fill="#f5f9fd" stroke="#d7e5f1"/><text class="sans tag" x="1243" y="591">CONTROLLED LOOP</text><text class="sans point" x="1243" y="621">复杂度规划 · 子问题并行</text><text class="sans point" x="1243" y="647">一次改写 · 结果合成</text>
+  <circle cx="166" cy="756" r="49" fill="#0b4198"/><text class="sans number" x="166" y="766" text-anchor="middle">3</text>
+  <text class="sans tag" x="245" y="732">GROUNDED &amp; TRACEABLE</text><text class="sans point-title" x="245" y="766">层级知识组织与可信结果生成</text>
+  <text class="sans point" x="245" y="802">以 L3 精准召回、L1/L2 上下文补全为基础，结合混合检索、精排与 EvidenceGrade，</text><text class="sans point" x="245" y="829">把回答、改写、HITL 澄清与拒答分开处理，并用引用和 Trace 支持结果回溯。</text>
+  <rect x="1218" y="730" width="270" height="104" rx="12" fill="#f5f9fd" stroke="#d7e5f1"/><text class="sans tag" x="1243" y="759">TRUST LAYER</text><text class="sans point" x="1243" y="789">L1 / L2 / L3 · Hybrid RAG</text><text class="sans point" x="1243" y="815">HITL · Citation · rag_trace</text>
+  <text class="sans footer" x="76" y="872">项目重点：证据路径选择、受控检索纠错、分层上下文组织与可核验回答</text><text class="sans footer" x="1515" y="872" text-anchor="end">SuperAgentic_RAG</text>
+</svg>

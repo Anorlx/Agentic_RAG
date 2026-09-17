@@ -20,7 +20,8 @@ class SupervisorProfileTests(unittest.TestCase):
     def test_agent_profile_is_loaded_from_project_root_for_each_call(self):
         profile = load_agent_profile()
 
-        self.assertIn("水稻", profile)
+        self.assertIn("通用", profile)
+        self.assertNotIn("水稻", profile)
         self.assertIn("Tavily", profile)
 
 

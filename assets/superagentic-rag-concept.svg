@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <style>
+      .serif{font-family:Georgia,"Times New Roman","Noto Serif SC","Songti SC",serif}
+      .sans{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Microsoft YaHei",sans-serif}
+      .main{font-size:29px;font-weight:700;fill:#173b67}
+      .tag{font-size:24px;font-weight:700;fill:#713916}
+      .section{font-size:20px;font-weight:700;fill:#203e60}
+      .body{font-size:17px;fill:#34495e}
+      .small{font-size:14px;fill:#647589}
+      .tiny{font-size:12px;fill:#728094}
+      .panel{stroke-width:2}
+      .line{fill:none;stroke:#526e8c;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+      .feedback{fill:none;stroke:#ee9a70;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+    </style>
+    <marker id="arr" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9" fill="#526e8c"/></marker>
+    <marker id="arrO" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9" fill="#ee9a70"/></marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="#fff"/>
+  <text class="serif main" x="800" y="43" text-anchor="middle">SuperAgentic_RAG：水稻农业智能体的认知工作空间</text>
+  <text class="serif small" x="800" y="59" text-anchor="middle">从场景信号到证据支撑的监测、问答与产量评估</text>
+
+  <!-- left environment -->
+  <rect x="55" y="215" width="415" height="500" rx="30" fill="#f6f7f8" stroke="#d6dce3" class="panel"/>
+  <rect x="175" y="181" width="175" height="58" rx="12" fill="#fff" stroke="#8795a4" stroke-width="2"/>
+  <text class="serif tag" x="262" y="220" text-anchor="middle">农业场景</text>
+  <text class="sans section" x="87" y="270">用户、田块与现场信息</text>
+  <line x1="87" y1="286" x2="438" y2="286" stroke="#cfd5dc" stroke-width="1.4"/>
+  <rect x="87" y="315" width="350" height="135" rx="18" fill="#fff" stroke="#8795a4" stroke-width="1.8"/>
+  <circle cx="119" cy="358" r="13" fill="none" stroke="#63788c" stroke-width="3"/>
+  <path d="M97 399 q22 -33 44 0 q18 22 36 0" fill="none" stroke="#63788c" stroke-width="3"/>
+  <text class="sans body" x="175" y="357">“这块田的长势如何？”</text>
+  <text class="sans body" x="175" y="389">“下一步需要怎样管理？”</text>
+  <text class="sans small" x="175" y="425">文字、图片、上传资料或现场记录</text>
+  <rect x="87" y="480" width="350" height="178" rx="18" fill="#fff" stroke="#8795a4" stroke-width="1.8"/>
+  <text class="sans section" x="108" y="516">场景信号</text>
+  <g class="sans small">
+    <rect x="108" y="538" width="145" height="35" rx="9" fill="#edf1f5"/><text x="181" y="561" text-anchor="middle">田间观测</text>
+    <rect x="270" y="538" width="145" height="35" rx="9" fill="#edf1f5"/><text x="343" y="561" text-anchor="middle">天气变化</text>
+    <rect x="108" y="590" width="145" height="35" rx="9" fill="#edf1f5"/><text x="181" y="613" text-anchor="middle">历史记录</text>
+    <rect x="270" y="590" width="145" height="35" rx="9" fill="#edf1f5"/><text x="343" y="613" text-anchor="middle">品种与地块</text>
+  </g>
+
+  <!-- perception -->
+  <rect x="515" y="92" width="500" height="275" rx="34" fill="#fff1e6" stroke="#edc7a9" class="panel"/>
+  <rect x="681" y="61" width="168" height="58" rx="12" fill="#ffd0af" stroke="#c87a42" stroke-width="2"/>
+  <text class="serif tag" x="765" y="100" text-anchor="middle">感知</text>
+  <text class="sans section" x="548" y="158">多源输入与上下文理解</text>
+  <line x1="548" y1="174" x2="982" y2="174" stroke="#e6bda2" stroke-width="1.4"/>
+  <rect x="548" y="201" width="195" height="121" rx="12" fill="#fff" stroke="#8b9aaa" stroke-width="1.7"/>
+  <text class="sans body" x="570" y="235">输入</text>
+  <text class="sans small" x="570" y="263">文字 · 表格 · 文档</text>
+  <text class="sans small" x="570" y="289">图片 · 网页 · 监测值</text>
+  <rect x="787" y="201" width="195" height="121" rx="12" fill="#fff" stroke="#8b9aaa" stroke-width="1.7"/>
+  <text class="sans body" x="809" y="235">上下文</text>
+  <g fill="#adc8df"><circle cx="820" cy="267" r="8"/><circle cx="847" cy="267" r="8"/><circle cx="874" cy="267" r="8"/><circle cx="901" cy="267" r="8"/><circle cx="928" cy="267" r="8"/><circle cx="820" cy="294" r="8"/><circle cx="847" cy="294" r="8"/><circle cx="874" cy="294" r="8"/><circle cx="901" cy="294" r="8"/><circle cx="928" cy="294" r="8"/></g>
+  <path class="line" d="M743 261 H787" marker-end="url(#arr)"/>
+  <text class="sans tiny" x="765" y="346" text-anchor="middle">将场景信号转化为可检索、可比较的证据</text>
+
+  <!-- central cognitive core -->
+  <circle cx="765" cy="484" r="126" fill="#fff3ef" stroke="#d28d83" stroke-width="3"/>
+  <circle cx="765" cy="484" r="99" fill="none" stroke="#e2b1a8" stroke-width="1.5" stroke-dasharray="5 6"/>
+  <!-- rice-leaf / cognition mark -->
+  <path d="M765 545 C726 511 715 468 741 438 C756 421 775 417 787 432 C811 409 842 426 839 453 C868 461 869 495 845 507 C833 537 797 558 765 545Z" fill="#f6c6ae" stroke="#99594f" stroke-width="3"/>
+  <path d="M764 533 C772 493 779 466 799 438" fill="none" stroke="#99594f" stroke-width="3"/>
+  <text class="serif tag" x="765" y="602" text-anchor="middle">智能体</text>
+  <text class="sans small" x="765" y="624" text-anchor="middle">理解 · 规划 · 取证 · 生成</text>
+
+  <!-- right brain/memory -->
+  <rect x="1080" y="215" width="465" height="500" rx="30" fill="#fff1e6" stroke="#edc7a9" class="panel"/>
+  <rect x="1228" y="181" width="175" height="58" rx="12" fill="#ffd0af" stroke="#c87a42" stroke-width="2"/>
+  <text class="serif tag" x="1315" y="220" text-anchor="middle">记忆与决策</text>
+  <text class="sans section" x="1112" y="270">可持续的证据组织</text>
+  <line x1="1112" y1="286" x2="1512" y2="286" stroke="#e6bda2" stroke-width="1.4"/>
+  <rect x="1112" y="315" width="185" height="150" rx="14" fill="#fff" stroke="#8795a4" stroke-width="1.8"/>
+  <text class="sans body" x="1204" y="354" text-anchor="middle">用户记忆</text>
+  <path d="M1152 416 q26 -37 52 0 q18 22 37 0" fill="none" stroke="#60758a" stroke-width="3"/>
+  <circle cx="1160" cy="392" r="6" fill="#60758a"/><circle cx="1204" cy="378" r="6" fill="#60758a"/><circle cx="1248" cy="392" r="6" fill="#60758a"/>
+  <text class="sans tiny" x="1204" y="443" text-anchor="middle">偏好 · 历史问题 · 反馈</text>
+  <rect x="1332" y="315" width="180" height="150" rx="14" fill="#fff" stroke="#8795a4" stroke-width="1.8"/>
+  <text class="sans body" x="1422" y="354" text-anchor="middle">领域知识</text>
+  <path d="M1375 385 h94 v52 h-94 z M1385 375 h74 v10 h-74 z" fill="none" stroke="#60758a" stroke-width="3"/>
+  <line x1="1391" y1="401" x2="1452" y2="401" stroke="#60758a" stroke-width="2.5"/><line x1="1391" y1="418" x2="1452" y2="418" stroke="#60758a" stroke-width="2.5"/>
+  <text class="sans tiny" x="1422" y="443" text-anchor="middle">规程 · 品种 · 病虫害</text>
+  <rect x="1112" y="510" width="400" height="145" rx="14" fill="#edf3fb" stroke="#7898be" stroke-width="1.8"/>
+  <text class="sans body" x="1138" y="550">规划与证据判断</text>
+  <text class="sans small" x="1138" y="580">决定回答路径，组合相关证据</text>
+  <text class="sans small" x="1138" y="607">识别不足条件，控制结论边界</text>
+  <text class="sans small" x="1138" y="634">保留来源与过程，支持回溯</text>
+  <path class="line" d="M1204 465 V510" marker-end="url(#arr)"/><path class="line" d="M1422 465 V510" marker-end="url(#arr)"/>
+
+  <!-- action -->
+  <rect x="515" y="665" width="500" height="185" rx="34" fill="#fff1e6" stroke="#edc7a9" class="panel"/>
+  <rect x="681" y="634" width="168" height="58" rx="12" fill="#ffd0af" stroke="#c87a42" stroke-width="2"/>
+  <text class="serif tag" x="765" y="673" text-anchor="middle">行动</text>
+  <rect x="548" y="720" width="195" height="100" rx="12" fill="#fff" stroke="#8b9aaa" stroke-width="1.7"/>
+  <text class="sans body" x="570" y="754">回答与建议</text>
+  <text class="sans small" x="570" y="781">监测分析 · 病虫害防治</text>
+  <text class="sans small" x="570" y="803">产量评估 · 农事问答</text>
+  <rect x="787" y="720" width="195" height="100" rx="12" fill="#fff" stroke="#8b9aaa" stroke-width="1.7"/>
+  <text class="sans body" x="809" y="754">交互结果</text>
+  <text class="sans small" x="809" y="781">引用依据 · 待补充条件</text>
+  <text class="sans small" x="809" y="803">下一步可执行动作</text>
+
+  <!-- relationships -->
+  <path class="feedback" d="M470 370 C505 350 480 235 515 235" marker-end="url(#arrO)"/>
+  <path class="line" d="M765 367 V389" marker-end="url(#arr)"/>
+  <path class="line" d="M1015 265 C1060 265 1046 432 1080 432" marker-end="url(#arr)"/>
+  <path class="line" d="M765 610 V665" marker-end="url(#arr)"/>
+  <path class="line" d="M1080 585 C1048 585 1060 770 1015 770" marker-end="url(#arr)"/>
+  <path class="feedback" d="M548 770 C500 770 505 685 470 685" marker-end="url(#arrO)"/>
+  <path class="feedback" d="M435 674 C395 790 235 785 188 718" marker-end="url(#arrO)"/>
+  <text class="sans tiny" x="282" y="815" text-anchor="middle" fill="#b96f51">用户反馈与持续修正</text>
+  <text class="serif small" x="1515" y="865" text-anchor="end">概念模型：evidence-grounded agricultural agent</text>
+</svg>

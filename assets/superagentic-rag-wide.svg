@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1120" viewBox="0 0 1800 1120">
+  <defs>
+    <style>
+      .sans{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Microsoft YaHei",sans-serif}
+      .title{font-size:27px;font-weight:700;fill:#1d466f}.section{font-size:20px;font-weight:700;fill:#244c78}.body{font-size:16px;fill:#30475e}.small{font-size:13px;fill:#61758b}.tiny{font-size:11px;fill:#71849a}
+      .outer{fill:#f7fbff;stroke:#c2d5e7;stroke-width:2}.offline{fill:#fffaf1;stroke:#e4c88f;stroke-width:2}.online{fill:#f7fbff;stroke:#c4d7e9;stroke-width:2}.subgraph{fill:#fff;stroke:#b9cfe5;stroke-width:1.6}
+      .card{fill:#fff;stroke:#7897b7;stroke-width:1.7}.blue{fill:#e8f2fc;stroke:#71a0ce;stroke-width:1.7}.green{fill:#eef8f3;stroke:#7bb39b;stroke-width:1.7}.gold{fill:#fff7e7;stroke:#d8ae61;stroke-width:1.7}.rose{fill:#fff0f0;stroke:#d59090;stroke-width:1.7}
+      .line{fill:none;stroke:#426d98;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.dash{fill:none;stroke:#94abc1;stroke-width:1.4;stroke-dasharray:6 5;stroke-linecap:round;stroke-linejoin:round}
+    </style>
+    <marker id="arrow" markerWidth="6" markerHeight="6" refX="5.4" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6" fill="#426d98"/></marker>
+  </defs>
+  <rect width="1800" height="1120" fill="#fff"/>
+
+  <!-- offline index -->
+  <rect class="offline" x="25" y="25" width="1750" height="315" rx="16"/>
+  <rect x="25" y="25" width="10" height="315" rx="5" fill="#d7a235"/>
+  <text class="sans title" x="60" y="67">离线建库</text>
+  <rect class="card" x="70" y="122" width="240" height="70" rx="9"/><text class="sans section" x="190" y="153" text-anchor="middle">上传文档</text><text class="sans small" x="190" y="177" text-anchor="middle">PDF / Word / Excel / HTML</text>
+  <rect class="card" x="370" y="122" width="270" height="70" rx="9"/><text class="sans section" x="505" y="153" text-anchor="middle">格式校验与文本净化</text><text class="sans small" x="505" y="177" text-anchor="middle">解析内容与基础元数据</text>
+  <rect class="blue" x="700" y="112" width="255" height="90" rx="9"/><text class="sans section" x="827" y="148" text-anchor="middle">三级父子分块</text><text class="sans small" x="827" y="175" text-anchor="middle">保留 parent / root 元数据</text>
+  <path class="line" d="M310 157 H370" marker-end="url(#arrow)"/><path class="line" d="M640 157 H700" marker-end="url(#arrow)"/>
+  <!-- hierarchy branches -->
+  <path class="line" d="M955 157 H1000 V89 H1040" marker-end="url(#arrow)"/><path class="line" d="M955 157 H1000 V164 H1040" marker-end="url(#arrow)"/><path class="line" d="M955 157 H1000 V239 H1040" marker-end="url(#arrow)"/>
+  <rect class="card" x="1040" y="60" width="205" height="58" rx="8"/><text class="sans section" x="1142" y="95" text-anchor="middle">L1 章节级</text>
+  <rect class="card" x="1040" y="135" width="205" height="58" rx="8"/><text class="sans section" x="1142" y="170" text-anchor="middle">L2 小节级</text>
+  <rect class="card" x="1040" y="210" width="205" height="58" rx="8"/><text class="sans section" x="1142" y="245" text-anchor="middle">L3 叶子级</text>
+  <!-- parent storage bus -->
+  <path class="line" d="M1245 89 H1290 V164 H1245"/><path class="line" d="M1290 126 H1325" marker-end="url(#arrow)"/>
+  <rect class="green" x="1325" y="78" width="270" height="78" rx="9"/><text class="sans section" x="1460" y="111" text-anchor="middle">PostgreSQL + Redis</text><text class="sans small" x="1460" y="136" text-anchor="middle">L1 / L2 父块与热点摘要</text>
+  <!-- leaf vector branches -->
+  <path class="line" d="M1245 239 H1285 V205 H1325" marker-end="url(#arrow)"/><path class="line" d="M1285 239 V280 H1325" marker-end="url(#arrow)"/>
+  <rect class="blue" x="1325" y="178" width="270" height="54" rx="8"/><text class="sans section" x="1460" y="212" text-anchor="middle">BGE-M3 向量化</text>
+  <rect class="blue" x="1325" y="253" width="270" height="54" rx="8"/><text class="sans section" x="1460" y="287" text-anchor="middle">中文 BM25 稀疏索引</text>
+  <path class="line" d="M1595 205 H1630 V239 H1660" marker-end="url(#arrow)"/><path class="line" d="M1595 280 H1630 V239 H1660" marker-end="url(#arrow)"/>
+  <rect class="blue" x="1660" y="198" width="100" height="82" rx="9"/><text class="sans section" x="1710" y="231" text-anchor="middle">Milvus</text><text class="sans tiny" x="1710" y="254" text-anchor="middle">L3 Dense</text><text class="sans tiny" x="1710" y="270" text-anchor="middle">+ Sparse</text>
+
+  <!-- online query -->
+  <rect class="online" x="25" y="370" width="1750" height="725" rx="16"/>
+  <rect x="25" y="370" width="10" height="725" rx="5" fill="#4f8fbe"/>
+  <text class="sans title" x="60" y="412">在线问答</text>
+  <text class="sans small" x="60" y="440">路由层</text>
+  <rect class="green" x="70" y="465" width="225" height="65" rx="9"/><text class="sans section" x="182" y="496" text-anchor="middle">用户问题</text><text class="sans small" x="182" y="518" text-anchor="middle">自然语言农业咨询</text>
+  <rect class="blue" x="350" y="450" width="300" height="95" rx="10"/><text class="sans section" x="500" y="490" text-anchor="middle">Supervisor 意图路由</text><text class="sans small" x="500" y="516" text-anchor="middle">领域规则 + 结构化路由决策</text>
+  <path class="line" d="M295 498 H350" marker-end="url(#arrow)"/>
+  <!-- 路由结果矩阵：在线路由只保留“输入 → Supervisor → 结果”两条箭头 -->
+  <path class="line" d="M650 498 H800" marker-end="url(#arrow)"/>
+  <rect x="800" y="385" width="675" height="190" rx="12" fill="#fbfdff" stroke="#d4e2ef" stroke-width="1.4"/>
+  <text class="sans section" x="832" y="420">四类执行路径</text>
+  <text class="sans tiny" x="1438" y="417" text-anchor="end">依据证据来源与时效性选择</text>
+  <rect class="card" x="835" y="440" width="270" height="50" rx="8"/><text class="sans section" x="970" y="463" text-anchor="middle">直接回答</text><text class="sans tiny" x="970" y="481" text-anchor="middle">稳定常识 · 无需外部证据</text>
+  <rect class="blue" x="1170" y="440" width="270" height="50" rx="8"/><text class="sans section" x="1305" y="463" text-anchor="middle">私有知识库检索</text><text class="sans tiny" x="1305" y="481" text-anchor="middle">上传资料 · RAG 子图</text>
+  <rect class="card" x="835" y="510" width="270" height="50" rx="8"/><text class="sans section" x="970" y="533" text-anchor="middle">实时网页搜索</text><text class="sans tiny" x="970" y="551" text-anchor="middle">政策 / 天气 / 公开动态</text>
+  <rect class="gold" x="1170" y="510" width="270" height="50" rx="8"/><text class="sans section" x="1305" y="533" text-anchor="middle">双源联合取证</text><text class="sans tiny" x="1305" y="551" text-anchor="middle">知识库 + 网页交叉验证</text>
+
+  <!-- rag subgraph -->
+  <rect class="subgraph" x="70" y="610" width="1690" height="440" rx="12"/>
+  <text class="sans section" x="95" y="648">RAG 子图：复杂度规划、混合检索与证据门控</text>
+  <!-- route into subgraph -->
+  <path class="dash" d="M1305 560 V590 H190 V735"/><text class="sans tiny" x="750" y="584" text-anchor="middle">进入 RAG 子图</text>
+  <!-- complexity -->
+  <path d="M112 785 L190 740 L268 785 L190 830 Z" fill="#eef5fb" stroke="#7897b7" stroke-width="1.7"/><text class="sans section" x="190" y="782" text-anchor="middle">复杂度判断</text><text class="sans tiny" x="190" y="802" text-anchor="middle">简单 / 复杂</text>
+  <rect class="card" x="320" y="680" width="235" height="65" rx="8"/><text class="sans section" x="437" y="712" text-anchor="middle">标准检索</text><text class="sans tiny" x="437" y="730" text-anchor="middle">单问题召回</text>
+  <rect class="card" x="320" y="815" width="235" height="65" rx="8"/><text class="sans section" x="437" y="847" text-anchor="middle">拆分 2–4 个子问题</text><text class="sans tiny" x="437" y="866" text-anchor="middle">可独立检索</text>
+  <path class="line" d="M268 785 H292 V712 H320" marker-end="url(#arrow)"/><path class="line" d="M268 785 H292 V847 H320" marker-end="url(#arrow)"/>
+  <rect class="card" x="590" y="815" width="235" height="65" rx="8"/><text class="sans section" x="707" y="847" text-anchor="middle">并行检索</text><text class="sans tiny" x="707" y="866" text-anchor="middle">Send 分发</text>
+  <path class="line" d="M555 847 H590" marker-end="url(#arrow)"/>
+  <!-- 标准检索与并行检索在 Dense + BM25 前汇合，仅在汇合点保留一个箭头 -->
+  <path class="line" d="M555 712 H575 V725 H840 V784"/>
+  <rect class="blue" x="860" y="748" width="235" height="72" rx="8"/><text class="sans section" x="977" y="781" text-anchor="middle">Dense + BM25</text><text class="sans tiny" x="977" y="801" text-anchor="middle">L3 混合召回</text>
+  <path class="line" d="M825 847 H840 V784"/>
+  <path class="line" d="M840 784 H860" marker-end="url(#arrow)"/>
+  <rect class="card" x="1130" y="748" width="170" height="72" rx="8"/><text class="sans section" x="1215" y="781" text-anchor="middle">RRF 融合</text><text class="sans tiny" x="1215" y="801" text-anchor="middle">候选排序</text><path class="line" d="M1095 784 H1130" marker-end="url(#arrow)"/>
+  <rect class="card" x="1335" y="748" width="190" height="72" rx="8"/><text class="sans section" x="1430" y="781" text-anchor="middle">Auto-merging</text><text class="sans tiny" x="1430" y="801" text-anchor="middle">L3 → L2 → L1</text><path class="line" d="M1300 784 H1335" marker-end="url(#arrow)"/>
+  <rect class="card" x="1560" y="748" width="170" height="72" rx="8"/><text class="sans section" x="1645" y="781" text-anchor="middle">精排与过滤</text><text class="sans tiny" x="1645" y="801" text-anchor="middle">Cross-Encoder</text><path class="line" d="M1525 784 H1560" marker-end="url(#arrow)"/>
+  <!-- evidence grade and clean outcomes -->
+  <path d="M1590 925 L1660 880 L1730 925 L1660 970 Z" fill="#eaf6f7" stroke="#76a8b8" stroke-width="1.7"/><text class="sans section" x="1660" y="922" text-anchor="middle">证据评分</text><text class="sans tiny" x="1660" y="942" text-anchor="middle">相关性 / 可回答性</text>
+  <path class="line" d="M1645 820 V850 H1660 V880" marker-end="url(#arrow)"/>
+  <rect class="green" x="1170" y="880" width="235" height="70" rx="8"/><text class="sans section" x="1287" y="913" text-anchor="middle">去重与结果合成</text><text class="sans tiny" x="1287" y="933" text-anchor="middle">跨子问题汇总</text>
+  <path class="line" d="M1590 925 H1405" marker-end="url(#arrow)"/>
+  <rect class="blue" x="1170" y="985" width="235" height="52" rx="8"/><text class="sans section" x="1287" y="1009" text-anchor="middle">最终回答模型</text><text class="sans tiny" x="1287" y="1026" text-anchor="middle">基于已获取证据</text>
+  <rect class="green" x="1445" y="985" width="245" height="52" rx="8"/><text class="sans section" x="1567" y="1009" text-anchor="middle">最终输出：答案 + 引用</text><text class="sans tiny" x="1567" y="1026" text-anchor="middle">Trace 可回溯</text>
+  <path class="line" d="M1287 950 V985" marker-end="url(#arrow)"/><path class="line" d="M1405 1011 H1445" marker-end="url(#arrow)"/>
+</svg>

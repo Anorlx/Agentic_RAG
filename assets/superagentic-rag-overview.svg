@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1050" viewBox="0 0 1600 1050">
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#284b78"/>
+    </marker>
+    <marker id="arrow-muted" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#8c9aae"/>
+    </marker>
+    <style>
+      .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", sans-serif; font-size: 22px; font-weight: 700; fill: #183b67; }
+      .label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", sans-serif; font-size: 17px; fill: #243447; }
+      .small { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", sans-serif; font-size: 14px; fill: #526174; }
+      .tiny { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", sans-serif; font-size: 12px; fill: #607086; }
+      .panel { fill: #ffffff; stroke: #d7dee8; stroke-width: 2; }
+      .box { fill: #f7f9fc; stroke: #91a3ba; stroke-width: 1.7; }
+      .blue { fill: #eaf2fb; stroke: #6f93bd; }
+      .green { fill: #eef7f1; stroke: #79a88e; }
+      .orange { fill: #fff5e8; stroke: #d79d52; }
+      .red { fill: #fff0ef; stroke: #d68c86; }
+      .line { fill: none; stroke: #284b78; stroke-width: 2.4; marker-end: url(#arrow); }
+      .line-muted { fill: none; stroke: #8c9aae; stroke-width: 2; marker-end: url(#arrow-muted); }
+      .dashed { fill: none; stroke: #9fb0c4; stroke-width: 1.5; stroke-dasharray: 6 5; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="1050" fill="#ffffff"/>
+  <rect x="34" y="30" width="1532" height="990" rx="30" fill="none" stroke="#1b4e9b" stroke-width="5" stroke-dasharray="20 14"/>
+
+  <!-- (a) Offline index construction -->
+  <rect class="panel" x="78" y="72" width="900" height="320" rx="8"/>
+  <text class="title" x="98" y="108">(a) 离线建库：文档解析与三级索引</text>
+  <rect class="box blue" x="104" y="145" width="155" height="72" rx="7"/>
+  <text class="label" x="181" y="176" text-anchor="middle">PDF / Word</text>
+  <text class="label" x="181" y="199" text-anchor="middle">Excel / HTML</text>
+  <path class="line" d="M259 181 H295"/>
+  <rect class="box" x="295" y="145" width="170" height="72" rx="7"/>
+  <text class="label" x="380" y="176" text-anchor="middle">格式校验</text>
+  <text class="small" x="380" y="198" text-anchor="middle">文本净化 · 表格展开</text>
+  <path class="line" d="M465 181 H505"/>
+  <rect class="box orange" x="505" y="145" width="185" height="72" rx="7"/>
+  <text class="label" x="598" y="176" text-anchor="middle">结构感知分块</text>
+  <text class="small" x="598" y="198" text-anchor="middle">L1 / L2 / L3 父子树</text>
+  <path class="line" d="M690 181 H736"/>
+  <rect class="box green" x="736" y="145" width="190" height="72" rx="7"/>
+  <text class="label" x="831" y="176" text-anchor="middle">L3 叶子块</text>
+  <text class="small" x="831" y="198" text-anchor="middle">BGE-M3 + BM25</text>
+  <path class="line" d="M831 217 V248"/>
+  <rect class="box blue" x="736" y="248" width="190" height="62" rx="7"/>
+  <text class="label" x="831" y="276" text-anchor="middle">Milvus</text>
+  <text class="small" x="831" y="297" text-anchor="middle">Dense / Sparse 向量</text>
+  <path class="line-muted" d="M598 217 V277 H570"/>
+  <rect class="box" x="360" y="248" width="210" height="62" rx="7"/>
+  <text class="label" x="465" y="276" text-anchor="middle">L1 / L2 父节点</text>
+  <text class="small" x="465" y="297" text-anchor="middle">PostgreSQL + Redis</text>
+  <path class="dashed" d="M118 338 H930"/>
+  <text class="tiny" x="118" y="364">建立 parent_chunk_id / root_chunk_id，供在线检索时回溯章节上下文</text>
+
+  <!-- (b) Supervisor routing -->
+  <rect class="panel" x="1002" y="72" width="520" height="320" rx="8"/>
+  <text class="title" x="1022" y="108">(b) Supervisor：证据路由</text>
+  <rect class="box blue" x="1040" y="142" width="155" height="58" rx="7"/>
+  <text class="label" x="1118" y="177" text-anchor="middle">用户问题</text>
+  <path class="line" d="M1195 171 H1240"/>
+  <rect class="box orange" x="1240" y="142" width="200" height="58" rx="7"/>
+  <text class="label" x="1340" y="177" text-anchor="middle">LangGraph Supervisor</text>
+  <path class="line" d="M1340 200 V230"/>
+  <rect class="box" x="1040" y="230" width="190" height="50" rx="7"/>
+  <text class="label" x="1135" y="261" text-anchor="middle">direct · 直接回答</text>
+  <rect class="box" x="1250" y="230" width="230" height="50" rx="7"/>
+  <text class="label" x="1365" y="261" text-anchor="middle">knowledge_base · 私有资料</text>
+  <rect class="box" x="1040" y="298" width="190" height="50" rx="7"/>
+  <text class="label" x="1135" y="329" text-anchor="middle">web_search · 实时信息</text>
+  <rect class="box" x="1250" y="298" width="230" height="50" rx="7"/>
+  <text class="label" x="1365" y="329" text-anchor="middle">knowledge_base + web</text>
+  <path class="line-muted" d="M1300 200 V230 H1135"/>
+  <path class="line-muted" d="M1380 200 V230 H1365"/>
+  <path class="line-muted" d="M1300 200 V298 H1135"/>
+  <path class="line-muted" d="M1380 200 V298 H1365"/>
+
+  <!-- (c) Agentic RAG loop -->
+  <rect class="panel" x="78" y="420" width="944" height="540" rx="8"/>
+  <text class="title" x="98" y="456">(c) Agentic RAG：检索、证据门控与有限改写</text>
+  <rect class="box blue" x="110" y="500" width="170" height="58" rx="7"/>
+  <text class="label" x="195" y="535" text-anchor="middle">问题复杂度判断</text>
+  <path class="line" d="M280 529 H330"/>
+  <rect class="box" x="330" y="475" width="190" height="55" rx="7"/>
+  <text class="label" x="425" y="509" text-anchor="middle">简单问题</text>
+  <text class="small" x="425" y="526" text-anchor="middle">标准检索</text>
+  <rect class="box orange" x="330" y="550" width="190" height="55" rx="7"/>
+  <text class="label" x="425" y="584" text-anchor="middle">复杂问题</text>
+  <text class="small" x="425" y="601" text-anchor="middle">拆分 2–4 个子问题</text>
+  <path class="line-muted" d="M280 529 V577 H330"/>
+  <path class="line" d="M520 502 H575"/>
+  <path class="line" d="M520 577 H575"/>
+  <rect class="box green" x="575" y="500" width="185" height="78" rx="7"/>
+  <text class="label" x="667" y="533" text-anchor="middle">Dense + BM25</text>
+  <text class="small" x="667" y="555" text-anchor="middle">L3 叶子召回</text>
+  <text class="small" x="667" y="572" text-anchor="middle">并行检索可合并</text>
+  <path class="line" d="M760 539 H810"/>
+  <rect class="box blue" x="810" y="500" width="150" height="78" rx="7"/>
+  <text class="label" x="885" y="533" text-anchor="middle">RRF</text>
+  <text class="small" x="885" y="555" text-anchor="middle">融合候选</text>
+  <text class="small" x="885" y="572" text-anchor="middle">统一排序</text>
+  <path class="line" d="M885 578 V625"/>
+  <rect class="box orange" x="700" y="625" width="220" height="62" rx="7"/>
+  <text class="label" x="810" y="653" text-anchor="middle">Auto-merging</text>
+  <text class="small" x="810" y="674" text-anchor="middle">L3 → L2 → L1</text>
+  <path class="line" d="M700 656 H615"/>
+  <rect class="box" x="425" y="625" width="190" height="62" rx="7"/>
+  <text class="label" x="520" y="653" text-anchor="middle">Cross-Encoder</text>
+  <text class="small" x="520" y="674" text-anchor="middle">本地精排 + 阈值过滤</text>
+  <path class="line" d="M425 656 H310"/>
+  <rect class="box blue" x="125" y="625" width="185" height="62" rx="7"/>
+  <text class="label" x="217" y="653" text-anchor="middle">结构化证据评分</text>
+  <text class="small" x="217" y="674" text-anchor="middle">相关性 · 可回答性</text>
+  <path class="line" d="M217 687 V730"/>
+  <rect class="box green" x="125" y="730" width="210" height="55" rx="7"/>
+  <text class="label" x="230" y="764" text-anchor="middle">证据充分 → 生成回答</text>
+  <path class="line-muted" d="M310 656 H360 V812 H335"/>
+  <rect class="box orange" x="125" y="812" width="210" height="55" rx="7"/>
+  <text class="label" x="230" y="846" text-anchor="middle">相关但不足 → 改写一次</text>
+  <text class="small" x="230" y="862" text-anchor="middle">Step-back / HyDE</text>
+  <path class="line-muted" d="M125 839 H95 V539 H110"/>
+  <rect class="box red" x="380" y="730" width="210" height="55" rx="7"/>
+  <text class="label" x="485" y="764" text-anchor="middle">缺少条件 → 请求补充</text>
+  <rect class="box red" x="620" y="730" width="210" height="55" rx="7"/>
+  <text class="label" x="725" y="764" text-anchor="middle">完全无关 → 可靠性拒答</text>
+  <path class="dashed" d="M370 705 H850"/>
+  <text class="tiny" x="370" y="925">证据门控将“能回答、需改写、需澄清、应拒答”分开，避免无依据生成</text>
+
+  <!-- (d) Hierarchical index and storage -->
+  <rect class="panel" x="1042" y="420" width="480" height="250" rx="8"/>
+  <text class="title" x="1062" y="456">(d) 层级索引与存储职责</text>
+  <rect class="box blue" x="1072" y="485" width="115" height="52" rx="7"/>
+  <text class="label" x="1129" y="517" text-anchor="middle">L1 章节</text>
+  <path class="line-muted" d="M1187 511 H1220"/>
+  <rect class="box" x="1220" y="485" width="115" height="52" rx="7"/>
+  <text class="label" x="1277" y="517" text-anchor="middle">L2 小节</text>
+  <path class="line-muted" d="M1335 511 H1368"/>
+  <rect class="box green" x="1368" y="485" width="115" height="52" rx="7"/>
+  <text class="label" x="1425" y="517" text-anchor="middle">L3 叶子</text>
+  <text class="small" x="1072" y="570">PostgreSQL：节点、来源、父子关系</text>
+  <text class="small" x="1072" y="595">Redis：目录摘要与热点上下文缓存</text>
+  <text class="small" x="1072" y="620">Milvus：L3 Dense / Sparse 向量与检索</text>
+  <text class="tiny" x="1072" y="648">每个 L3 带 parent_chunk_id、root_chunk_id</text>
+
+  <!-- (e) Traceable output and evaluation -->
+  <rect class="panel" x="1042" y="700" width="480" height="260" rx="8"/>
+  <text class="title" x="1062" y="736">(e) 可追溯输出与评测闭环</text>
+  <rect class="box blue" x="1072" y="765" width="175" height="52" rx="7"/>
+  <text class="label" x="1159" y="797" text-anchor="middle">答案 + 文档片段引用</text>
+  <rect class="box" x="1270" y="765" width="175" height="52" rx="7"/>
+  <text class="label" x="1357" y="797" text-anchor="middle">网页来源 + rag_trace</text>
+  <path class="line-muted" d="M1159 817 V844 H1270"/>
+  <text class="small" x="1072" y="866">LangSmith：Dataset · Experiment · Trace 回放</text>
+  <text class="small" x="1072" y="889">Evaluator：路由准确率 · Recall@5 · 引用完整性</text>
+  <text class="small" x="1072" y="912">900+ 自动化评测，支持从回答反查检索链路</text>
+  <rect x="1072" y="930" width="373" height="1" fill="#d7dee8"/>
+  <text class="tiny" x="1072" y="948">流式返回执行状态，不展示隐藏推理或敏感信息</text>
+</svg>

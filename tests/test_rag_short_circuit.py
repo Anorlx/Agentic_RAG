@@ -311,7 +311,7 @@ class RagShortCircuitTests(unittest.TestCase):
         self.assertEqual(1, calls["retrieve"])
         self.assertEqual(0, calls["step_back"])
 
-    def test_weak_evidence_rewrites_once_then_clarifies(self):
+    def test_weak_evidence_rewrites_once_then_keeps_partial_evidence(self):
         calls = {"retrieve": [], "step_back": 0}
 
         def retrieve(query, top_k=5):
@@ -352,8 +352,39 @@ class RagShortCircuitTests(unittest.TestCase):
 
         self.assertEqual(["weak question", "rewritten weak question"], calls["retrieve"])
         self.assertEqual(1, calls["step_back"])
-        self.assertEqual("needs_clarification", result.get("retrieval_status"))
-        self.assertEqual([], result.get("docs"))
+        self.assertEqual("partial", result.get("retrieval_status"))
+        self.assertEqual(1, len(result.get("docs", [])))
+
+    def test_non_deictic_question_keeps_evidence_when_grader_claims_multiple_candidates(self):
+        def retrieve(query, top_k=5):
+            return {"docs": [_doc("图神经网络可按谱域和空间域等方式分类")], "meta": _meta(1)}
+
+        def grade(schema, prompt):
+            return {
+                "relevance": "strong",
+                "answerability": "partial",
+                "ambiguity": "multiple_candidates",
+                "route": "scope_select",
+                "confidence": 0.62,
+                "hitl_prompt": "请选择方向",
+                "hitl_options": ["谱域", "空间域"],
+            }
+
+        pipeline = load_pipeline(retrieve_documents=retrieve)
+        pipeline._get_complexity_model = lambda: FakeStructuredModel(
+            lambda schema, prompt: {"complexity": "simple", "reason": "unit"}
+        )
+        pipeline._get_grader_model = lambda: FakeStructuredModel(grade)
+
+        ctx = self._ctx()
+        try:
+            result = pipeline.run_rag_graph("图神经网络有哪些主要类型？", ctx)
+        finally:
+            ctx.close()
+
+        self.assertEqual("partial", result.get("retrieval_status"))
+        self.assertEqual("answer", result.get("route"))
+        self.assertEqual(1, len(result.get("docs", [])))
 
     def test_hyde_rewrite_runs_only_selected_retrieval(self):
         calls = {"retrieve": [], "rewrite": 0, "grade": 0}
@@ -444,7 +475,7 @@ class RagShortCircuitTests(unittest.TestCase):
 
                 ctx = self._ctx()
                 try:
-                    result = pipeline.run_rag_graph("ambiguous question", ctx)
+                    result = pipeline.run_rag_graph("这个模型的关键特征是什么？", ctx)
                 finally:
                     ctx.close()
 

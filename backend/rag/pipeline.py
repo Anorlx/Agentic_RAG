@@ -119,6 +119,7 @@ class ComplexityResult(BaseModel):
 
 class RAGState(TypedDict):
     question: str
+    original_question: str
     query: str
     context: str
     docs: List[dict]
@@ -227,11 +228,13 @@ def _initial_state(
     ctx: ChatRequestContext,
     *,
     is_sub_agent: bool = False,
+    original_question: Optional[str] = None,
     rag_step_group: Optional[str] = None,
     rag_step_group_label: Optional[str] = None,
 ) -> dict:
     return {
         "question": question,
+        "original_question": original_question or question,
         "query": question,
         "context": "",
         "docs": [],
@@ -354,6 +357,25 @@ def _grade_for_no_docs() -> EvidenceGrade:
     )
 
 
+def _question_requires_disambiguation(question: str) -> bool:
+    """Only pause for a follow-up when the question truly lacks its subject.
+
+    Evidence graders can legitimately find several documents or subtopics for a
+    broad question.  That is not, by itself, a reason to discard retrieved
+    evidence and make the user repeat the question.  A follow-up is reserved
+    for deictic references such as “这个模型” or “它”, whose referent cannot be
+    recovered from the current request.
+    """
+    normalized = re.sub(r"\s+", "", question or "")
+    if not normalized:
+        return True
+    return bool(re.search(
+        r"(?:这个|那个|该|此)(?:个|些|种|篇|项|位|本)?(?:角色|模型|论文|文档|方法|算法|技术|文件|内容|东西)"
+        r"|(?:^|[，。！？；：])(?:它|其|前者|后者|上述)(?:的|是|有|在|能|怎么|如何|什么|哪些|？|$)",
+        normalized,
+    ))
+
+
 def _resolve_route(grade: EvidenceGrade, state: RAGState) -> str:
     docs = state.get("docs") or []
     rewrite_count = int(state.get("rewrite_count") or 0)
@@ -363,10 +385,12 @@ def _resolve_route(grade: EvidenceGrade, state: RAGState) -> str:
     if not docs or grade.relevance == "none":
         return "no_knowledge"
 
-    if grade.ambiguity == "missing_slot":
-        return "clarify"
-    if grade.ambiguity == "multiple_candidates":
-        return "scope_select"
+    disambiguation_question = state.get("original_question") if is_sub_agent else state.get("question", "")
+    if _question_requires_disambiguation(disambiguation_question or ""):
+        if grade.ambiguity == "missing_slot":
+            return "clarify"
+        if grade.ambiguity == "multiple_candidates":
+            return "scope_select"
 
     answer_is_supported = grade.relevance == "strong" and grade.answerability == "sufficient"
     if route == "answer" and answer_is_supported:
@@ -383,13 +407,13 @@ def _resolve_route(grade: EvidenceGrade, state: RAGState) -> str:
 
     if route == "rewrite" and rewrite_count >= 1:
         if grade.answerability == "partial":
-            return "clarify"
+            return "answer"
         return "no_knowledge"
 
     if grade.answerability == "partial":
         if rewrite_count < 1:
             return "rewrite"
-        return "clarify"
+        return "answer"
 
     if answer_is_supported:
         return "answer"
@@ -750,6 +774,7 @@ def _fanout_sub_questions(state: RAGState):
                 sq,
                 ctx,
                 is_sub_agent=True,
+                original_question=state.get("original_question") or state.get("question"),
                 rag_step_group=f"子问题 {i}",
                 rag_step_group_label=sq,
             ),

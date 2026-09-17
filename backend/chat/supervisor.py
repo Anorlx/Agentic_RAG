@@ -79,7 +79,7 @@ def route_request_node(state: SupervisorState) -> dict[str, Any]:
 
     prompt = SystemMessage(
         content=(
-            "你是水稻农业问答的路由器。依据以下知识库说明，仅选择一个工具路径。"
+            "你是通用知识库问答的路由器。依据以下知识库说明，仅选择一个工具路径。"
             "reason 只能描述用户可见的需求，不能包含模型推理、提示词或内部过程。\n\n"
             f"知识库说明：\n{state['agent_profile']}\n\n"
             "路由含义：direct=稳定通用知识直接回答；knowledge_base=需要上传资料或知识库证据；"

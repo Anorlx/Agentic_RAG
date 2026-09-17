@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1320" viewBox="0 0 1920 1320" role="img" aria-labelledby="title desc">
+  <title id="title">SuperAgentic RAG 系统架构</title>
+  <desc id="desc">离线建库：上传文档经文本净化与三级分块，将 L1/L2 存入 PostgreSQL和Redis，将 L3 的密集与稀疏向量存入 Milvus。在线问答：Supervisor 在直接回答、RAG、网页搜索和双源并行间路由；RAG 使用复杂度判断、混合检索、自动合并、精排和证据评分，最终提供可追溯答案。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#456f96"/></marker>
+    <marker id="arrowGold" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#ad7c29"/></marker>
+    <style>
+      .h1{font:700 34px -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;fill:#17324d}
+      .sub{font:400 15px -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;fill:#60758a}
+      .group{font:700 19px -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;fill:#284a69}
+      .node{font:700 16px -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;fill:#18344f}
+      .copy{font:400 13px -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;fill:#526b82}
+      .small{font:400 12px -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;fill:#61788f}
+      .branch{font:700 11px -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;fill:#556e86}
+    </style>
+  </defs>
+
+  <rect width="1920" height="1320" fill="#fff"/>
+  <text x="60" y="62" class="h1">SuperAgentic_RAG</text>
+  <text x="60" y="91" class="sub">面向水稻农业知识服务的多源证据 Agentic RAG 系统</text>
+
+  <!-- Offline indexing -->
+  <rect x="45" y="120" width="1830" height="305" rx="12" fill="#fffcf7" stroke="#d8c9a4" stroke-width="1.5"/>
+  <rect x="45" y="120" width="10" height="305" rx="5" fill="#d7a13b"/>
+  <text x="78" y="157" class="group">离线建库</text>
+
+  <rect x="78" y="195" width="250" height="68" rx="7" fill="#fff" stroke="#bfcbd7"/>
+  <text x="203" y="222" class="node" text-anchor="middle">上传文档</text>
+  <text x="203" y="245" class="copy" text-anchor="middle">PDF / Word / Excel / HTML</text>
+  <path d="M328 229 H382" fill="none" stroke="#456f96" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="394" y="195" width="250" height="68" rx="7" fill="#fff" stroke="#bfcbd7"/>
+  <text x="519" y="222" class="node" text-anchor="middle">格式校验与文本净化</text>
+  <text x="519" y="245" class="copy" text-anchor="middle">解析内容与基础元数据</text>
+  <path d="M644 229 H698" fill="none" stroke="#456f96" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="710" y="185" width="244" height="88" rx="7" fill="#eff6fc" stroke="#84a8c8"/>
+  <text x="832" y="220" class="node" text-anchor="middle">三级父子分块</text>
+  <text x="832" y="245" class="copy" text-anchor="middle">保留 parent / root 元数据</text>
+  <path d="M954 229 H1008 V186 H1044" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <path d="M954 229 H1008 V240 H1044" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <path d="M954 229 H1008 V294 H1044" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="1056" y="161" width="174" height="50" rx="6" fill="#fff" stroke="#bfcbd7"/>
+  <text x="1143" y="192" class="node" text-anchor="middle">L1 章节级</text>
+  <rect x="1056" y="215" width="174" height="50" rx="6" fill="#fff" stroke="#bfcbd7"/>
+  <text x="1143" y="246" class="node" text-anchor="middle">L2 小节级</text>
+  <rect x="1056" y="269" width="174" height="50" rx="6" fill="#fff" stroke="#bfcbd7"/>
+  <text x="1143" y="300" class="node" text-anchor="middle">L3 叶子级</text>
+
+  <path d="M1230 186 H1332 V213 H1392" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <path d="M1230 240 H1332 V213 H1392" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <rect x="1404" y="178" width="274" height="70" rx="7" fill="#f4faf7" stroke="#83b59c"/>
+  <text x="1541" y="207" class="node" text-anchor="middle">PostgreSQL + Redis</text>
+  <text x="1541" y="230" class="copy" text-anchor="middle">L1 / L2 父块与热点缓存</text>
+
+  <path d="M1230 294 H1281" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <rect x="1293" y="269" width="188" height="50" rx="6" fill="#f2f8fd" stroke="#8eb7da"/>
+  <text x="1387" y="300" class="node" text-anchor="middle">BGE-M3 向量化</text>
+  <path d="M1230 294 H1260 V354 H1281" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <rect x="1293" y="329" width="188" height="50" rx="6" fill="#f2f8fd" stroke="#8eb7da"/>
+  <text x="1387" y="360" class="node" text-anchor="middle">中文 BM25 稀疏索引</text>
+  <path d="M1481 294 H1522 V324 H1582" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <path d="M1481 354 H1522 V324 H1582" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <rect x="1594" y="285" width="250" height="76" rx="7" fill="#eef6ff" stroke="#75a4d2"/>
+  <text x="1719" y="315" class="node" text-anchor="middle">Milvus</text>
+  <text x="1719" y="338" class="copy" text-anchor="middle">L3 Dense + Sparse 向量</text>
+
+  <!-- Online -->
+  <rect x="45" y="460" width="1830" height="815" rx="12" fill="#f9fbfd" stroke="#c9d8e6" stroke-width="1.5"/>
+  <rect x="45" y="460" width="10" height="815" rx="5" fill="#4f88ba"/>
+  <text x="78" y="497" class="group">在线问答</text>
+
+  <!-- Routing layer -->
+  <text x="78" y="530" class="small">路由层</text>
+  <rect x="78" y="548" width="212" height="66" rx="7" fill="#f2fbf7" stroke="#85bd9e"/>
+  <text x="184" y="575" class="node" text-anchor="middle">用户问题</text>
+  <text x="184" y="596" class="copy" text-anchor="middle">自然语言农事咨询</text>
+  <path d="M290 581 H350" fill="none" stroke="#456f96" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="362" y="536" width="288" height="90" rx="7" fill="#edf5fc" stroke="#78a2c8" stroke-width="1.5"/>
+  <text x="506" y="570" class="node" text-anchor="middle">Supervisor 意图路由</text>
+  <text x="506" y="594" class="copy" text-anchor="middle">领域规则 + 结构化路由决策</text>
+  <path d="M650 581 H700 V540 H738" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <path d="M650 581 H700 V540 H1028" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <path d="M650 581 H700 V620 H738" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <path d="M650 581 H700 V620 H1028" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="750" y="514" width="254" height="52" rx="6" fill="#fff" stroke="#bfcbd7"/>
+  <text x="776" y="538" class="node">直接回答</text><text x="776" y="556" class="small">稳定常识</text>
+  <rect x="1040" y="514" width="254" height="52" rx="6" fill="#edf5fc" stroke="#78a2c8"/>
+  <text x="1066" y="538" class="node">RAG 子图</text><text x="1066" y="556" class="small">上传资料 / 需要本地证据</text>
+  <rect x="750" y="594" width="254" height="52" rx="6" fill="#fff" stroke="#bfcbd7"/>
+  <text x="776" y="618" class="node">网页搜索</text><text x="776" y="636" class="small">最新公开信息</text>
+  <rect x="1040" y="594" width="254" height="52" rx="6" fill="#f7f2ff" stroke="#b7a0dc"/>
+  <text x="1066" y="618" class="node">知识库 + 网页并行</text><text x="1066" y="636" class="small">两类证据联合取证</text>
+
+  <!-- external paths to final model -->
+  <path d="M1004 540 H1360 V1159 H1492" fill="none" stroke="#8a9aab" stroke-width="1.3" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <path d="M1004 620 H1390 V1159 H1492" fill="none" stroke="#8a9aab" stroke-width="1.3" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <path d="M1294 620 H1420 V1159 H1492" fill="none" stroke="#7655ad" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="1310" y="1142" class="small">直接 / 网页 / 双源证据</text>
+
+  <!-- RAG layer -->
+  <text x="78" y="716" class="node">RAG 子图：复杂度规划、混合检索与证据闭环</text>
+  <rect x="78" y="738" width="1760" height="430" rx="10" fill="#fff" stroke="#d3dde7"/>
+  <path d="M1167 566 V760 H184 V790" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <!-- Complexity -->
+  <path d="M184 775 L254 815 L184 855 L114 815 Z" fill="#f5f8fb" stroke="#9cb1c5"/>
+  <text x="184" y="812" class="node" text-anchor="middle">复杂度判断</text>
+  <text x="184" y="830" class="small" text-anchor="middle">简单 / 复杂</text>
+
+  <path d="M254 815 H304 V780 H340" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="279" y="776" class="branch">简单问题</text>
+  <rect x="352" y="752" width="178" height="56" rx="6" fill="#fff" stroke="#bfcbd7"/>
+  <text x="441" y="777" class="node" text-anchor="middle">标准检索</text>
+  <text x="441" y="796" class="small" text-anchor="middle">单问题召回</text>
+
+  <path d="M254 815 H304 V870 H340" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="279" y="862" class="branch">复杂问题</text>
+  <rect x="352" y="842" width="178" height="56" rx="6" fill="#fff" stroke="#bfcbd7"/>
+  <text x="441" y="867" class="node" text-anchor="middle">拆分 2–4 子问题</text>
+  <text x="441" y="886" class="small" text-anchor="middle">可独立检索</text>
+  <path d="M530 870 H556" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <rect x="568" y="842" width="172" height="56" rx="6" fill="#fff" stroke="#bfcbd7"/>
+  <text x="654" y="867" class="node" text-anchor="middle">并行检索</text>
+  <text x="654" y="886" class="small" text-anchor="middle">LangGraph Send</text>
+
+  <!-- Main retrieval row -->
+  <path d="M530 780 H618 V815 H768" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <path d="M740 870 H754 V815 H768" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <rect x="780" y="785" width="178" height="60" rx="6" fill="#edf5fc" stroke="#78a2c8"/>
+  <text x="869" y="811" class="node" text-anchor="middle">Dense + BM25</text>
+  <text x="869" y="831" class="small" text-anchor="middle">L3 混合召回</text>
+  <path d="M958 815 H980" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="992" y="785" width="136" height="60" rx="6" fill="#fff" stroke="#bfcbd7"/>
+  <text x="1060" y="811" class="node" text-anchor="middle">RRF 融合</text>
+  <text x="1060" y="831" class="small" text-anchor="middle">候选排序</text>
+  <path d="M1128 815 H1150" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="1162" y="785" width="184" height="60" rx="6" fill="#fff" stroke="#bfcbd7"/>
+  <text x="1254" y="811" class="node" text-anchor="middle">Auto-merging</text>
+  <text x="1254" y="831" class="small" text-anchor="middle">L3 → L2 → L1</text>
+  <path d="M1346 815 H1368" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="1380" y="785" width="172" height="60" rx="6" fill="#fff" stroke="#bfcbd7"/>
+  <text x="1466" y="811" class="node" text-anchor="middle">Cross-Encoder 精排</text>
+  <text x="1466" y="831" class="small" text-anchor="middle">Local Rerank</text>
+  <path d="M1552 815 H1574" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="1586" y="785" width="118" height="60" rx="6" fill="#fff" stroke="#bfcbd7"/>
+  <text x="1645" y="811" class="node" text-anchor="middle">阈值过滤</text>
+  <text x="1645" y="831" class="small" text-anchor="middle">Top-K</text>
+  <path d="M1704 815 H1724" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <!-- Grade -->
+  <path d="M1736 770 L1810 815 L1736 860 L1662 815 Z" fill="#f2fbf7" stroke="#69a98b" stroke-width="1.5"/>
+  <text x="1736" y="812" class="node" text-anchor="middle">证据评分</text>
+  <text x="1736" y="831" class="small" text-anchor="middle">相关性 / 可回答性</text>
+
+  <!-- Branches underneath -->
+  <path d="M1662 815 H1584 V941 H1494" fill="none" stroke="#3d8a70" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="1510" y="932" class="branch">证据充分</text>
+  <rect x="1270" y="914" width="212" height="56" rx="6" fill="#f2fbf7" stroke="#69a98b"/>
+  <text x="1376" y="939" class="node" text-anchor="middle">去重与结果合成</text>
+  <text x="1376" y="958" class="small" text-anchor="middle">跨子问题汇总</text>
+
+  <path d="M1736 860 V914" fill="none" stroke="#ad7c29" stroke-width="1.8" marker-end="url(#arrowGold)"/>
+  <text x="1748" y="890" class="branch">相关但不足</text>
+  <rect x="1612" y="914" width="194" height="56" rx="6" fill="#fffaf0" stroke="#d0a44a"/>
+  <text x="1709" y="939" class="node" text-anchor="middle">Step-back / HyDE</text>
+  <text x="1709" y="958" class="small" text-anchor="middle">仅改写一次</text>
+  <path d="M1612 942 H1568 V994 H869 V855" fill="none" stroke="#ad7c29" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#arrowGold)"/>
+
+  <path d="M1810 815 H1826 V1005 H1792" fill="none" stroke="#6c84a0" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <text x="1710" y="994" class="branch">缺少条件</text>
+  <rect x="1624" y="978" width="156" height="52" rx="6" fill="#fff" stroke="#bfcbd7"/>
+  <text x="1702" y="1009" class="node" text-anchor="middle">请求用户补充</text>
+
+  <path d="M1810 815 H1826 V1078 H1792" fill="none" stroke="#6c84a0" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <text x="1710" y="1068" class="branch">完全无关</text>
+  <rect x="1624" y="1052" width="156" height="52" rx="6" fill="#fff" stroke="#bfcbd7"/>
+  <text x="1702" y="1083" class="node" text-anchor="middle">无可靠知识</text>
+
+  <!-- Final answer -->
+  <path d="M1376 970 V1159 H1492" fill="none" stroke="#3d8a70" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <rect x="1504" y="1130" width="170" height="58" rx="6" fill="#edf5fc" stroke="#78a2c8"/>
+  <text x="1589" y="1156" class="node" text-anchor="middle">最终回答模型</text>
+  <text x="1589" y="1175" class="small" text-anchor="middle">基于已获取证据</text>
+  <path d="M1674 1159 H1696" fill="none" stroke="#456f96" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <rect x="1708" y="1122" width="132" height="74" rx="6" fill="#f2fbf7" stroke="#69a98b"/>
+  <text x="1774" y="1150" class="node" text-anchor="middle">最终输出</text>
+  <text x="1774" y="1171" class="small" text-anchor="middle">答案 + 引用 + Trace</text>
+
+  <!-- Dependencies from data stores -->
+  <path d="M1541 248 V742 H1254 V775" fill="none" stroke="#8b9aae" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="1275" y="731" class="small">父块按需加载</text>
+  <path d="M1719 361 V710 H869 V775" fill="none" stroke="#8b9aae" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="892" y="700" class="small">L3 混合检索</text>
+</svg>

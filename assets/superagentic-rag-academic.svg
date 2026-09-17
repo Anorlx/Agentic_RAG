@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980">
+  <defs>
+    <style>
+      .h1{font-family:Georgia,"Times New Roman","Noto Serif SC","Songti SC",serif;font-size:30px;font-weight:700;fill:#183b67}
+      .h2{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Microsoft YaHei",sans-serif;font-size:19px;font-weight:700;fill:#183b67}
+      .body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Microsoft YaHei",sans-serif;font-size:16px;fill:#25364a}
+      .small{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Microsoft YaHei",sans-serif;font-size:13px;fill:#5a6c81}
+      .cap{font-family:Georgia,"Times New Roman","Noto Serif SC","Songti SC",serif;font-size:16px;fill:#33475d}
+      .frame{fill:#fff;stroke:#c9d4e1;stroke-width:2}
+      .band{fill:#f8fafc;stroke:#c9d4e1;stroke-width:1.7}
+      .navy{fill:#eaf2fb;stroke:#6f93bd;stroke-width:1.7}
+      .teal{fill:#edf7f2;stroke:#78a88d;stroke-width:1.7}
+      .gold{fill:#fff5e7;stroke:#d29b51;stroke-width:1.7}
+      .rose{fill:#fff0ef;stroke:#d18a83;stroke-width:1.7}
+      .rule{stroke:#aebdce;stroke-width:1.4}
+      .connector{stroke:#6d829a;stroke-width:2;fill:none}
+      .dash{stroke:#9fb0c2;stroke-width:1.3;stroke-dasharray:6 6;fill:none}
+    </style>
+  </defs>
+
+  <rect width="1600" height="980" fill="#ffffff"/>
+  <text class="h1" x="800" y="55" text-anchor="middle">SuperAgentic_RAG：面向水稻知识服务的证据驱动智能体框架</text>
+  <text class="cap" x="800" y="84" text-anchor="middle">分层知识表征 · 自适应证据获取 · 可追溯决策输出</text>
+
+  <!-- left: knowledge substrate -->
+  <rect class="frame" x="70" y="120" width="430" height="690" rx="12"/>
+  <text class="h2" x="95" y="160">I  知识与数据基座</text>
+  <line class="rule" x1="95" y1="178" x2="475" y2="178"/>
+  <text class="small" x="95" y="205">异构来源被统一映射为可追溯的上下文节点</text>
+
+  <rect class="band" x="100" y="235" width="370" height="105" rx="8"/>
+  <text class="body" x="120" y="266">领域文档</text>
+  <text class="small" x="120" y="292">PDF · Word · HTML · 项目资料</text>
+  <text class="small" x="120" y="315">规程、试验记录、品种与病虫害知识</text>
+  <rect class="band" x="100" y="360" width="370" height="105" rx="8"/>
+  <text class="body" x="120" y="391">结构化数据</text>
+  <text class="small" x="120" y="417">Excel 表格 · 田间监测 · 产量指标</text>
+  <text class="small" x="120" y="440">字段、单位与来源元数据保留</text>
+  <rect class="band" x="100" y="485" width="370" height="105" rx="8"/>
+  <text class="body" x="120" y="516">时效性信息</text>
+  <text class="small" x="120" y="542">天气 · 政策 · 市场 · 最新研究</text>
+  <text class="small" x="120" y="565">通过网页搜索独立取证</text>
+  <path class="connector" d="M285 340 V360 M285 465 V485"/>
+  <rect class="teal" x="100" y="635" width="370" height="135" rx="8"/>
+  <text class="body" x="120" y="668">层级上下文表示</text>
+  <text class="small" x="120" y="695">L1 章节级　L2 小节级　L3 叶子级</text>
+  <text class="small" x="120" y="720">parent_chunk_id · root_chunk_id</text>
+  <text class="small" x="120" y="745">PostgreSQL / Redis 管理节点与摘要</text>
+
+  <!-- center: evidence fabric -->
+  <rect class="frame" x="545" y="120" width="510" height="690" rx="12"/>
+  <text class="h2" x="570" y="160">II  证据检索与上下文组织</text>
+  <line class="rule" x1="570" y1="178" x2="1030" y2="178"/>
+  <text class="small" x="570" y="205">以 L3 为检索单元，以父子关系恢复语义完整性</text>
+
+  <rect class="navy" x="585" y="240" width="430" height="115" rx="9"/>
+  <text class="body" x="610" y="274">双通道召回</text>
+  <text class="small" x="610" y="303">Dense：BGE-M3 语义向量</text>
+  <text class="small" x="610" y="329">Sparse：BM25 关键词匹配</text>
+  <text class="small" x="610" y="350">统一进入 Milvus 检索空间</text>
+
+  <rect class="gold" x="585" y="385" width="430" height="115" rx="9"/>
+  <text class="body" x="610" y="419">候选证据整合</text>
+  <text class="small" x="610" y="448">RRF：融合语义与词法排序</text>
+  <text class="small" x="610" y="474">Auto-merging：L3 → L2 → L1</text>
+  <text class="small" x="610" y="495">Cross-Encoder：本地精排与阈值过滤</text>
+
+  <rect class="teal" x="585" y="530" width="430" height="115" rx="9"/>
+  <text class="body" x="610" y="564">证据门控</text>
+  <text class="small" x="610" y="593">相关性 · 可回答性 · 歧义 · 缺失条件</text>
+  <text class="small" x="610" y="619">充分证据才进入回答生成</text>
+  <text class="small" x="610" y="640">不足时仅允许一次 Step-back / HyDE</text>
+  <path class="connector" d="M800 355 V385 M800 500 V530"/>
+  <text class="cap" x="800" y="705" text-anchor="middle">Evidence Fabric</text>
+  <text class="small" x="800" y="730" text-anchor="middle">检索结果、父级上下文与证据评分共同构成回答依据</text>
+
+  <!-- right: agent layer -->
+  <rect class="frame" x="1100" y="120" width="430" height="690" rx="12"/>
+  <text class="h2" x="1125" y="160">III  Agent 编排与决策层</text>
+  <line class="rule" x1="1125" y1="178" x2="1505" y2="178"/>
+  <text class="small" x="1125" y="205">Supervisor 负责证据路径选择，Worker 执行专门能力</text>
+
+  <ellipse cx="1315" cy="300" rx="145" ry="68" fill="#eaf2fb" stroke="#6f93bd" stroke-width="2"/>
+  <text class="body" x="1315" y="294" text-anchor="middle">LangGraph Supervisor</text>
+  <text class="small" x="1315" y="319" text-anchor="middle">意图识别 · 路由 · 状态编排</text>
+
+  <rect class="band" x="1130" y="420" width="170" height="86" rx="8"/>
+  <text class="body" x="1215" y="452" text-anchor="middle">RAG Worker</text>
+  <text class="small" x="1215" y="478" text-anchor="middle">私有知识库取证</text>
+  <rect class="band" x="1330" y="420" width="170" height="86" rx="8"/>
+  <text class="body" x="1415" y="452" text-anchor="middle">Web Worker</text>
+  <text class="small" x="1415" y="478" text-anchor="middle">实时公开信息搜索</text>
+  <rect class="band" x="1130" y="540" width="170" height="86" rx="8"/>
+  <text class="body" x="1215" y="572" text-anchor="middle">Table Worker</text>
+  <text class="small" x="1215" y="598" text-anchor="middle">Excel 查询与计算</text>
+  <rect class="band" x="1330" y="540" width="170" height="86" rx="8"/>
+  <text class="body" x="1415" y="572" text-anchor="middle">Direct Answer</text>
+  <text class="small" x="1415" y="598" text-anchor="middle">稳定常识快速响应</text>
+  <path class="connector" d="M1215 368 V420 M1415 368 V420 M1260 344 V540 M1370 344 V540"/>
+  <rect class="rose" x="1130" y="670" width="370" height="95" rx="8"/>
+  <text class="body" x="1150" y="704">结构化输出约束</text>
+  <text class="small" x="1150" y="731">Pydantic Schema · Tool Calling · 引用字段</text>
+  <text class="small" x="1150" y="752">保证路由、工具结果与答案格式可验证</text>
+
+  <!-- bottom evaluation strip -->
+  <rect class="frame" x="70" y="845" width="1460" height="90" rx="12"/>
+  <text class="h2" x="95" y="882">IV  可观测评测闭环</text>
+  <text class="body" x="350" y="882">LangSmith Dataset / Experiment / Trace 回放</text>
+  <text class="small" x="350" y="910">路由准确率 90%+　·　Recall@5 86%　·　上下文 Token ↓ 78%　·　900+ 自动化评测</text>
+  <text class="cap" x="1500" y="905" text-anchor="end">Figure 1</text>
+
+  <!-- subtle relationships -->
+  <path class="dash" d="M500 465 H545"/>
+  <path class="dash" d="M1055 465 H1100"/>
+  <text class="tiny" x="522" y="452" text-anchor="middle">节点化</text>
+  <text class="tiny" x="1077" y="452" text-anchor="middle">证据供给</text>
+</svg>

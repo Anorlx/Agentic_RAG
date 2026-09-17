@@ -6,6 +6,10 @@ SuperAgentic_RAG 将用户上传的技术规程、试验资料和田间记录，
 
 > 适用主题：水稻栽培、品种与育种、病虫害、土壤与施肥、水分管理、农机，以及用户上传的项目资料。
 
+![SuperAgentic_RAG 产品界面与证据脉络](assets/superagentic-rag-product-hero.svg)
+
+> 产品界面展示农业问答、实时证据脉络与可回溯引用；核心能力包括多源证据路由、受控 Agentic RAG 与可观测回答。
+
 ## 核心能力
 
 | 能力 | 说明 |

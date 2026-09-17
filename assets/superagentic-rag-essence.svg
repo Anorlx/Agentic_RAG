@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1720" viewBox="0 0 1000 1720">
+  <defs>
+    <style>
+      .serif{font-family:Georgia,"Times New Roman","Noto Serif SC","Songti SC",serif}
+      .sans{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Microsoft YaHei",sans-serif}
+      .title{font-size:28px;font-weight:700;fill:#173f70}.subtitle{font-size:15px;fill:#60758d}
+      .tag{font-size:22px;font-weight:700;fill:#1d568c}.section{font-size:20px;font-weight:700;fill:#244c78}
+      .body{font-size:17px;fill:#30475e}.small{font-size:14px;fill:#61758b}.tiny{font-size:12px;fill:#74879a}
+      .panel{fill:#f5f8fc;stroke:#b8cde3;stroke-width:2}.panel-white{fill:#fff;stroke:#7897b7;stroke-width:1.8}
+      .blue{fill:#e5f0fb;stroke:#6e9dcc;stroke-width:1.8}.blue-deep{fill:#d5e7f7;stroke:#5482ae;stroke-width:2}
+      .teal{fill:#eaf6f7;stroke:#76a8b8;stroke-width:1.8}.rose{fill:#eef3fb;stroke:#7798be;stroke-width:1.8}
+      .line{fill:none;stroke:#456b93;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+      .lightline{fill:none;stroke:#9bb3ca;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+    </style>
+    <marker id="arrow" markerWidth="5.5" markerHeight="5.5" refX="5" refY="2.75" orient="auto"><path d="M0 0 L5.5 2.75 L0 5.5" fill="#456b93"/></marker>
+  </defs>
+
+  <rect width="1000" height="1720" fill="#fff"/>
+  <text class="serif title" x="500" y="42" text-anchor="middle">SuperAgentic_RAG：水稻农业智能体的证据工作流</text>
+  <text class="serif subtitle" x="500" y="68" text-anchor="middle">不是固定问答链，而是面向证据路径选择的可控 Agent 系统</text>
+
+  <!-- A: user tasks -->
+  <rect class="panel" x="55" y="100" width="890" height="170" rx="24"/>
+  <rect class="blue-deep" x="410" y="76" width="180" height="55" rx="11"/>
+  <text class="serif tag" x="500" y="113" text-anchor="middle">用户任务</text>
+  <text class="sans section" x="85" y="154">水稻监测、农事问答与产量评估</text>
+  <line x1="85" y1="169" x2="915" y2="169" stroke="#c4d5e6" stroke-width="1.3"/>
+  <rect class="panel-white" x="85" y="190" width="250" height="54" rx="11"/><text class="sans body" x="210" y="223" text-anchor="middle">生长监测与异常分析</text>
+  <rect class="panel-white" x="375" y="190" width="250" height="54" rx="11"/><text class="sans body" x="500" y="223" text-anchor="middle">病虫害与农事调控</text>
+  <rect class="panel-white" x="665" y="190" width="250" height="54" rx="11"/><text class="sans body" x="790" y="223" text-anchor="middle">产量评估辅助决策</text>
+  <path class="line" d="M500 270 V290" marker-end="url(#arrow)"/>
+
+  <!-- B: supervisor -->
+  <rect class="panel" x="55" y="305" width="890" height="235" rx="24"/>
+  <rect class="blue-deep" x="375" y="281" width="250" height="55" rx="11"/>
+  <text class="serif tag" x="500" y="318" text-anchor="middle">Supervisor 路由</text>
+  <text class="sans section" x="85" y="359">先决定“需要哪类证据”，再决定“如何检索”</text>
+  <line x1="85" y1="374" x2="915" y2="374" stroke="#c4d5e6" stroke-width="1.3"/>
+  <rect class="panel-white" x="85" y="401" width="375" height="50" rx="10"/><text class="sans body" x="272" y="432" text-anchor="middle">direct · 稳定常识直接回答</text>
+  <rect class="panel-white" x="540" y="401" width="375" height="50" rx="10"/><text class="sans body" x="727" y="432" text-anchor="middle">knowledge_base · 私有资料取证</text>
+  <rect class="panel-white" x="85" y="466" width="375" height="50" rx="10"/><text class="sans body" x="272" y="497" text-anchor="middle">web_search · 当前公开信息</text>
+  <rect class="panel-white" x="540" y="466" width="375" height="50" rx="10"/><text class="sans body" x="727" y="497" text-anchor="middle">knowledge_base + web · 联合取证</text>
+  <text class="sans tiny" x="500" y="530" text-anchor="middle">Pydantic 结构化路由 · 用户可见 reason · 联合路径并行执行</text>
+  <path class="line" d="M500 540 V560" marker-end="url(#arrow)"/>
+
+  <!-- C: evidence sources -->
+  <rect class="panel" x="55" y="575" width="890" height="295" rx="24"/>
+  <rect class="blue-deep" x="380" y="551" width="240" height="55" rx="11"/>
+  <text class="serif tag" x="500" y="588" text-anchor="middle">证据来源与索引</text>
+  <text class="sans section" x="85" y="629">私有资料与实时信息分开处理，避免证据混淆</text>
+  <line x1="85" y1="644" x2="915" y2="644" stroke="#c4d5e6" stroke-width="1.3"/>
+  <rect class="blue" x="85" y="672" width="385" height="150" rx="14"/>
+  <text class="sans body" x="110" y="707">私有资料知识库</text>
+  <text class="sans small" x="110" y="736">PDF · Word · Excel · HTML</text>
+  <text class="sans small" x="110" y="762">解析 · 文本净化 · 三级父子分块</text>
+  <text class="sans small" x="110" y="788">L1 / L2 父节点 + L3 可检索叶子</text>
+  <text class="sans tiny" x="110" y="810">parent_chunk_id · root_chunk_id</text>
+  <rect class="teal" x="530" y="672" width="385" height="150" rx="14"/>
+  <text class="sans body" x="555" y="707">实时公开信息</text>
+  <text class="sans small" x="555" y="736">天气 · 政策 · 市场 · 最新研究</text>
+  <text class="sans small" x="555" y="762">Tavily 搜索 · URL 合法性校验</text>
+  <text class="sans small" x="555" y="788">来源标题、域名、摘要与日期保留</text>
+  <text class="sans tiny" x="555" y="810">搜索失败时返回可解释的降级状态</text>
+  <text class="sans tiny" x="500" y="853" text-anchor="middle">direct 路径在此层短路；知识库路径进入下方 Agentic RAG 闭环</text>
+  <path class="line" d="M500 870 V890" marker-end="url(#arrow)"/>
+
+  <!-- D: Agentic RAG -->
+  <rect class="panel" x="55" y="905" width="890" height="370" rx="24"/>
+  <rect class="blue-deep" x="360" y="881" width="280" height="55" rx="11"/>
+  <text class="serif tag" x="500" y="918" text-anchor="middle">Agentic RAG 取证闭环</text>
+  <text class="sans section" x="85" y="959">按问题复杂度动态规划，按证据质量控制终止</text>
+  <line x1="85" y1="974" x2="915" y2="974" stroke="#c4d5e6" stroke-width="1.3"/>
+  <rect class="panel-white" x="85" y="1000" width="250" height="92" rx="13"/><text class="sans body" x="210" y="1034" text-anchor="middle">复杂度规划</text><text class="sans small" x="105" y="1062">简单：标准检索</text><text class="sans small" x="105" y="1084">复杂：拆分 2–4 个子问题</text>
+  <rect class="panel-white" x="375" y="1000" width="250" height="92" rx="13"/><text class="sans body" x="500" y="1034" text-anchor="middle">并行子 Agent</text><text class="sans small" x="395" y="1062">LangGraph Send 分发</text><text class="sans small" x="395" y="1084">检索 · 评分 · 结果合成</text>
+  <rect class="panel-white" x="665" y="1000" width="250" height="92" rx="13"/><text class="sans body" x="790" y="1034" text-anchor="middle">查询纠错预算</text><text class="sans small" x="685" y="1062">Step-back / HyDE 二选一</text><text class="sans small" x="685" y="1084">最多改写一次后终止</text>
+  <path class="lightline" d="M335 1046 H375 M625 1046 H665"/>
+  <rect class="blue" x="85" y="1120" width="830" height="118" rx="14"/>
+  <text class="sans body" x="110" y="1154">检索与证据加工</text>
+  <text class="sans small" x="110" y="1181">L3 叶子召回：BGE-M3 Dense + Milvus BM25</text>
+  <text class="sans small" x="110" y="1206">RRF 融合 → L3→L2→L1 Auto-merging → Cross-Encoder 精排</text>
+  <text class="sans small" x="110" y="1231">只把经过排序与过滤的候选证据交给证据评分器</text>
+  <path class="line" d="M500 1275 V1295" marker-end="url(#arrow)"/>
+
+  <!-- E: gate -->
+  <rect class="panel" x="55" y="1310" width="890" height="230" rx="24"/>
+  <rect class="blue-deep" x="405" y="1286" width="190" height="55" rx="11"/>
+  <text class="serif tag" x="500" y="1323" text-anchor="middle">证据门控</text>
+  <text class="sans section" x="85" y="1364">EvidenceGrade 不让“有召回”直接等于“能回答”</text>
+  <line x1="85" y1="1379" x2="915" y2="1379" stroke="#c4d5e6" stroke-width="1.3"/>
+  <rect class="teal" x="85" y="1405" width="185" height="82" rx="12"/><text class="sans body" x="177" y="1438" text-anchor="middle">answer</text><text class="sans small" x="177" y="1465" text-anchor="middle">证据充分，生成回答</text>
+  <rect class="blue" x="295" y="1405" width="185" height="82" rx="12"/><text class="sans body" x="387" y="1438" text-anchor="middle">rewrite</text><text class="sans small" x="387" y="1465" text-anchor="middle">相关但不足，改写一次</text>
+  <rect class="blue" x="505" y="1405" width="185" height="82" rx="12"/><text class="sans body" x="597" y="1438" text-anchor="middle">clarify / scope</text><text class="sans small" x="597" y="1465" text-anchor="middle">缺条件或多候选，HITL</text>
+  <rect class="rose" x="715" y="1405" width="200" height="82" rx="12"/><text class="sans body" x="815" y="1438" text-anchor="middle">no_knowledge</text><text class="sans small" x="815" y="1465" text-anchor="middle">无可靠证据，拒答</text>
+  <path class="line" d="M500 1540 V1560" marker-end="url(#arrow)"/>
+
+  <!-- F: output and trace -->
+  <rect class="panel" x="55" y="1575" width="890" height="105" rx="24"/>
+  <rect class="blue-deep" x="375" y="1551" width="250" height="55" rx="11"/>
+  <text class="serif tag" x="500" y="1588" text-anchor="middle">可核验输出</text>
+  <text class="sans body" x="85" y="1630">答案 + 文档片段引用 + 网页来源</text>
+  <text class="sans small" x="85" y="1657">SSE 执行状态 · rag_trace · LangSmith Dataset / Experiment / Trace 回放</text>
+  <text class="sans tiny" x="915" y="1657" text-anchor="end">从结果反查路由、召回、合并、精排与证据判断</text>
+</svg>
