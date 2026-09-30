@@ -8,7 +8,6 @@ from backend.infra.auth import (
     get_current_user,
     get_db,
     get_password_hash,
-    resolve_role,
 )
 from backend.schemas import AuthResponse, CurrentUserResponse, LoginRequest, RegisterRequest
 
@@ -26,7 +25,9 @@ async def register(request: RegisterRequest, db: Session = Depends(get_db)):
     if exists:
         raise HTTPException(status_code=409, detail="用户名已存在")
 
-    role = resolve_role(request.role, request.admin_code)
+    # Public registration must never grant administrator privileges. Admins are
+    # provisioned server-side so a client cannot self-escalate via the payload.
+    role = "user"
     user = User(username=username, password_hash=get_password_hash(password), role=role)
     db.add(user)
     db.commit()

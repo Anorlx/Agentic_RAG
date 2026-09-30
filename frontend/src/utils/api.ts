@@ -24,7 +24,11 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response && error.response.status === 401) {
+    const requestPath = String(error.config?.url || '').split('?')[0];
+    const isAuthenticationRequest = requestPath === '/auth/login'
+      || requestPath === '/auth/register';
+
+    if (error.response?.status === 401 && !isAuthenticationRequest) {
       localStorage.removeItem('accessToken');
       // Dispatch a custom event or let store handle the logout redirection
       window.dispatchEvent(new CustomEvent('unauthorized'));

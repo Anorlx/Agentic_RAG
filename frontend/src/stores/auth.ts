@@ -10,8 +10,6 @@ export const useAuthStore = defineStore('auth', {
     authForm: {
       username: '',
       password: '',
-      role: 'user' as 'user' | 'admin',
-      admin_code: '',
     },
     authLoading: false,
   }),
@@ -49,10 +47,6 @@ export const useAuthStore = defineStore('auth', {
       try {
         const endpoint = this.authMode === 'login' ? '/auth/login' : '/auth/register';
         const payload: any = { username, password };
-        if (this.authMode === 'register') {
-          payload.role = this.authForm.role;
-          payload.admin_code = this.authForm.admin_code || null;
-        }
 
         const response = await api.post(endpoint, payload);
         const data = response.data;
@@ -63,7 +57,6 @@ export const useAuthStore = defineStore('auth', {
         
         // Reset password fields
         this.authForm.password = '';
-        this.authForm.admin_code = '';
       } catch (error: any) {
         const errMsg = error.response?.data?.detail || error.message || '认证失败';
         throw new Error(errMsg);

@@ -62,33 +62,6 @@
           </span>
         </label>
 
-        <label v-if="authStore.authMode === 'register'" class="form-field">
-          <span>账号角色</span>
-          <span class="field-input">
-            <i class="fa-regular fa-id-badge"></i>
-            <select v-model="authStore.authForm.role">
-              <option value="user">普通用户</option>
-              <option value="admin">管理员</option>
-            </select>
-          </span>
-        </label>
-
-        <label
-          v-if="authStore.authMode === 'register' && authStore.authForm.role === 'admin'"
-          class="form-field"
-        >
-          <span>管理员邀请码</span>
-          <span class="field-input">
-            <i class="fa-solid fa-key"></i>
-            <input
-              v-model="authStore.authForm.admin_code"
-              type="password"
-              autocomplete="off"
-              placeholder="请输入管理员邀请码"
-            />
-          </span>
-        </label>
-
         <button class="auth-submit" type="submit" :disabled="authStore.authLoading">
           <span>{{ authStore.authLoading ? '正在连接...' : (authStore.authMode === 'login' ? '进入工作台' : '创建账号') }}</span>
           <i :class="authStore.authLoading ? 'fa-solid fa-spinner fa-spin' : 'fa-solid fa-arrow-right'"></i>

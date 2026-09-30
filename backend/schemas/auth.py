@@ -6,8 +6,6 @@ from pydantic import BaseModel
 class RegisterRequest(BaseModel):
     username: str
     password: str
-    role: Optional[str] = "user"
-    admin_code: Optional[str] = None
 
 
 class LoginRequest(BaseModel):

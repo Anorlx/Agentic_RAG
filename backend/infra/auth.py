@@ -15,7 +15,6 @@ from backend.db.models import User
 SECRET_KEY = os.getenv("JWT_SECRET_KEY", "change-this-secret")
 ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("JWT_EXPIRE_MINUTES", "1440"))
-ADMIN_INVITE_CODE = os.getenv("ADMIN_INVITE_CODE", "")
 PBKDF2_ROUNDS = int(os.getenv("PASSWORD_PBKDF2_ROUNDS", "310000"))
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
@@ -121,12 +120,3 @@ def require_admin(current_user: User = Depends(get_current_user)) -> User:
     if current_user.role != "admin":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="管理员权限不足")
     return current_user
-
-
-def resolve_role(requested_role: str | None, admin_code: str | None) -> str:
-    role = (requested_role or "user").strip().lower()
-    if role != "admin":
-        return "user"
-    if ADMIN_INVITE_CODE and admin_code == ADMIN_INVITE_CODE:
-        return "admin"
-    raise HTTPException(status_code=403, detail="管理员邀请码错误")
